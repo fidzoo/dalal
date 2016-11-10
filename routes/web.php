@@ -22,18 +22,26 @@ Auth::routes();
 Route::get('merch-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('buyer-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('admin-reg', 'Auth\RegisterController@showRegistrationForm');
+
+//------Country Area------
+Route::resource('country', 'CountryController');
+
+//ajax search menu 
+Route::get('/ajax-city', function(){
+	$country_id= Request::input('country_id');
+
+	$cites= App\City::where('country_id', $country_id)->get();
+
+	return $cites;
+});
+
 //------------------------
-
-
-
 
 Route::get('member-agreement', function(){
 	return "Membership Agreement Page!";
 });
 
 
-Route::get('test', function(){
-	$ar = ['1', '2', 'ahmed', 'mazen'];
-
-	return view('test', compact('ar'));
+Route::post('test', function(){
+	return Request::input('country-code');
 });

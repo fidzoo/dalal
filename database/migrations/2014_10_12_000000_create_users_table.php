@@ -19,11 +19,13 @@ class CreateUsersTable extends Migration
             $table->integer('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->integer('city_id')->unsigned()->nullable();
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');            
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->boolean('active');            
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('mobile')->length(20);
+            $table->string('country_code')->length(8);
+            $table->string('phone')->length(30);
             $table->rememberToken();
             $table->timestamps();
         });

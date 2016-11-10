@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use App\Country;
 use Session;
 
 class RegisterController extends Controller
@@ -62,7 +63,10 @@ class RegisterController extends Controller
         if(Session::get('lang') == 'en'){
             return view('en.auth.register');
             }
-        return view('auth.register');
+        
+        $countries= Country::pluck('ar_name', 'id');
+
+        return view('auth.register', compact('countries'));
     }
 
     /**
@@ -88,12 +92,45 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'user_type' => 'ay7aga',
-            'mobile' => $data['mobile'],
-        ]);
+        if($data['user_group'] == 'merchant'){
+            return User::create([
+                'active' => false,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'user_type' => 'merchant',
+                'country_code' => $data['country_code'],
+                'phone' => $data['mobile'],
+                'country_id' => $data['country'],
+                'city_id' => $data['city'],
+            ]);
+        }
+        elseif($data['user_group'] == 'buyer'){
+            return User::create([
+                'active' => true,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'user_type' => 'buyer',
+                'country_code' =>  $data['country_code'],
+                'phone' => $data['mobile'],
+                'country_id' => $data['country'],
+                'city_id' => $data['city'],
+            ]);
+        }
+        elseif($data['user_group'] == 'admin'){
+            return User::create([
+                'active' => false,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'user_type' => 'admin',
+                'country_code' =>  $data['country_code'],
+                'phone' => $data['mobile'],
+                'country_id' => $data['country'],
+                'city_id' => $data['city'],
+            ]);
+        }
     }
+
 }
