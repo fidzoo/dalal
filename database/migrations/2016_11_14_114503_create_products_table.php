@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMainCategoriesTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateMainCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('main_categories', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('approve'); //0: not approved yet, 1: approved
+            $table->boolean('approve'); //0: Pending, 1: approved 2:rejected
             $table->string('ar_title');
             $table->string('en_title');
-            $table->integer('section_id')->unsigned();
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->string('ar_short_descrip');
+            $table->string('en_short_descrip');
+            $table->text('ar_long_descrip');
+            $table->text('en_long_descrip');
+            $table->integer('stock');
+            $table->integer('sell_count');
             $table->timestamps();
         });
     }
@@ -31,6 +35,6 @@ class CreateMainCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main_categories');
+        Schema::dropIfExists('products');
     }
 }

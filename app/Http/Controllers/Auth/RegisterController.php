@@ -81,6 +81,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'info'  => 'max:65530'
         ]);
     }
 
@@ -101,6 +102,7 @@ class RegisterController extends Controller
                 'user_type' => 'merchant',
                 'country_code' => $data['country_code'],
                 'phone' => $data['mobile'],
+                'info'  => $data['info'],
                 'country_id' => $data['country'],
                 'city_id' => $data['city'],
             ]);
@@ -114,6 +116,7 @@ class RegisterController extends Controller
                 'user_type' => 'buyer',
                 'country_code' =>  $data['country_code'],
                 'phone' => $data['mobile'],
+                'info'  => $data['info'],
                 'country_id' => $data['country'],
                 'city_id' => $data['city'],
             ]);
@@ -127,6 +130,7 @@ class RegisterController extends Controller
                 'user_type' => 'admin',
                 'country_code' =>  $data['country_code'],
                 'phone' => $data['mobile'],
+                'info'  => $data['info'],
                 'country_id' => $data['country'],
                 'city_id' => $data['city'],
             ]);

@@ -122,6 +122,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="info" class="col-md-4 control-label">Information</label>
+
+                            <div class="col-md-6">
+                                <textarea id="info" class="form-control" name="info" value="{{ old('info') }}"></textarea> 
+
+                                @if ($errors->has('info'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('info') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('agree') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-6">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Country;
 use App\Http\Requests;
 
 class CountryController extends Controller
@@ -36,7 +36,10 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $country= new Country;
+        // $country->ar_name= $request->input('ar_name');
+        // $country->en_name= $request->input('en_name');
+        // $country->save();
     }
 
     /**
