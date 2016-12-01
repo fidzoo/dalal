@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Country;
+use App\Product;
+use App\Section;
+use App\MainCategory;
+use App\SubCategory;
 use App\Http\Requests;
+use Session, Redirect, File;
 
-class CountryController extends Controller
+class ProductController extends Controller
 {
+    public function __construct()
+        {
+            $this->middleware('auth', ['except' => [
+                'index', 'show',
+            ]]);
+        } 
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +35,16 @@ class CountryController extends Controller
      */
     public function create()
     {
-        return 'create function';
+        if(Session::get('group') == 'merchant'){
+        //get dropdowns Values
+        $sections= Section::pluck('ar_title', 'id');
+        
+        if(Session::get('lang') == 'en'){
+            return view('en.product.product-create', compact('sections'));
+            }
+        return view('product.product-create', compact('sections'));
+        }
+        else return Redirect('/');
     }
 
     /**
@@ -36,10 +55,7 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        // $country= new Country;
-        // $country->ar_name= $request->input('ar_name');
-        // $country->en_name= $request->input('en_name');
-        // $country->save();
+        //
     }
 
     /**

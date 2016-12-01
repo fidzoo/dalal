@@ -26,12 +26,22 @@ Route::get('admin-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::resource('country', 'CountryController');
 //------Stores Area------------
 Route::resource('store', 'StoreController');
+//------Products Area----------
+Route::resource('product', 'ProductController');
+
+
+
+
+//------Registration Agreement---------
+Route::get('member-agreement', function(){
+	return "Membership Agreement Page!";
+});
 
 
 
 
 //-----------------------------
-//ajax search menu 
+//ajax City menu 
 Route::get('/ajax-city', function(){
 	$country_id= Request::input('country_id');
 
@@ -40,12 +50,28 @@ Route::get('/ajax-city', function(){
 	return $cites;
 });
 
-//------Registration Agreement---------
-Route::get('member-agreement', function(){
-	return "Membership Agreement Page!";
+//ajax Main Category menu 
+Route::get('/ajax-mcategory', function(){
+	$section_id= Request::input('section_id');
+
+	$mcategories= App\MainCategory::where('section_id', $section_id)->get();
+
+	return $mcategories;
+});
+
+//ajax Sub Category menu 
+Route::get('/ajax-subcategory', function(){
+	$mcategory_id= Request::input('mcategory_id');
+	$mcategory= App\MainCategory::find($mcategory_id);
+	$subcategories= $mcategory->subCategories;
+
+	return $subcategories;
 });
 
 
+
+
+//-------------------------------------
 Route::post('test', function(){
 	return Request::input('country-code');
 });

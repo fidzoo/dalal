@@ -3,11 +3,11 @@
 @section('content')
 إضافة متجر جديد
 <br>
-{!! Form::open(["url"=>"store", "class"=>"form-group"]) !!}
+{!! Form::open(["url"=>"store", "files"=> true,"class"=>"form-group"]) !!}
 {!! Form::label('اسم المتجر بالعربية') !!}
-{!! Form::text('ar_name', "", ['class'=>'form-control']) !!}<br>
+{!! Form::text('ar_name', "", ['class'=>'form-control', 'required']) !!}<br>
 {!! Form::label('اسم المتجر بالإنجليزية') !!}
-{!! Form::text('en_name', "", ['class'=>'form-control']) !!}<br>
+{!! Form::text('en_name', "", ['class'=>'form-control', 'required']) !!}<br>
 
 {!! Form::label('وصف قصير بالعربية') !!}
 {!! Form::text('ar_description', "", ['class'=>'form-control']) !!}<br>

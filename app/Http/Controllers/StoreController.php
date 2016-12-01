@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Store;
 use App\Http\Requests;
 use Session, Redirect, File;
 
 class StoreController extends Controller
 {
+    public function __construct()
+        {
+            $this->middleware('auth', ['except' => [
+                'index', 'show',
+            ]]);
+        }       
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +33,10 @@ class StoreController extends Controller
     public function create()
     {
         if(Session::get('group') == 'merchant'){
+        
+        if(Session::get('lang') == 'en'){
+            return view('en.store.store-create');
+            }
         return view('store.store-create');
         }
         else return Redirect('/');
@@ -40,7 +50,64 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+        if(Session::get('group') == 'merchant'){
+        $store= new Store;
+        $store->ar_name= $request->input('ar_name');
+        $store->en_name= $request->input('en_name');
+        $store->ar_description= $request->input('ar_description');
+        $store->en_description= $request->input('en_description');
+        $store->approve= 0;
+        $store->active= 0;
+        
+        //Upload Logos, Banners images
+        if ($request->file('ar_logo')){
+            $file= $request->file('ar_logo');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->ar_logo= 'images/'.$filename;
+        }
+        else {$store->ar_logo= 'ar-assets/images/def-logo.png';}
         //
+        if ($request->file('en_logo')){
+            $file= $request->file('en_logo');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->en_logo= 'images/'.$filename;
+        }
+        else {$store->en_logo= 'ar-assets/images/def-logo.png';}
+        //
+        if ($request->file('ar_banner')){
+            $file= $request->file('ar_banner');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->ar_banner= 'images/'.$filename;
+        }
+        else {$store->ar_banner= 'ar-assets/images/def-logo.png';}
+        //
+        if ($request->file('en_banner')){
+            $file= $request->file('en_banner');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->en_banner= 'images/'.$filename;
+        }
+        else {$store->en_banner= 'ar-assets/images/def-logo.png';}
+        
+        $store->save();
+
+
+        if(Session::get('lang') == 'en'){
+            return Redirect::back()->with('message', 'Store Created Successfully, you can Re-edit your store infromation later.');
+            }
+        return Redirect::back()->with('message', 'تم إنشاء المتجر بنجاح، يمكنك تعديل بيانات متجرك لاحقاً.');
+        }
     }
 
     /**
@@ -62,7 +129,15 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Session::get('group') == 'merchant'){
+            $store= Store::find($id);
+
+            if(Session::get('lang') == 'en'){
+                return view('en.store.store-merch-edit');
+            }
+            else return view('store.store-merch-edit', compact('store'));
+
+        }
     }
 
     /**
@@ -74,7 +149,78 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(Session::get('group') == 'merchant'){
+        $store= Store::find($id);
+        $store->ar_name= $request->input('ar_name');
+        $store->en_name= $request->input('en_name');
+        $store->ar_description= $request->input('ar_description');
+        $store->en_description= $request->input('en_description');
+        
+        //Upload Logos, Banners images
+        if ($request->file('ar_logo')){
+            //delete old image
+            if ($store->ar_logo != "ar-assets/images/def-logo.png"){
+            File::delete($store->ar_logo);
+                }
+            $file= $request->file('ar_logo');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->ar_logo= 'images/'.$filename;
+        }
+        else {$store->ar_logo= 'ar-assets/images/def-logo.png';}
         //
+        if ($request->file('en_logo')){
+            //delete old image
+            if ($store->en_logo != "ar-assets/images/def-logo.png"){
+            File::delete($store->en_logo);
+                }
+            $file= $request->file('en_logo');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->en_logo= 'images/'.$filename;
+        }
+        else {$store->en_logo= 'ar-assets/images/def-logo.png';}
+        //
+        if ($request->file('ar_banner')){
+            //delete old image
+            if ($store->ar_banner != "ar-assets/images/def-logo.png"){
+            File::delete($store->ar_banner);
+                }
+            $file= $request->file('ar_banner');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->ar_banner= 'images/'.$filename;
+        }
+        else {$store->ar_banner= 'ar-assets/images/def-logo.png';}
+        //
+        if ($request->file('en_banner')){
+            //delete old image
+            if ($store->en_banner != "ar-assets/images/def-logo.png"){
+            File::delete($store->en_banner);
+                }
+            $file= $request->file('en_banner');
+            $destinationPath= 'images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+
+            $store->en_banner= 'images/'.$filename;
+        }
+        else {$store->en_banner= 'ar-assets/images/def-logo.png';}
+        
+        $store->save();
+
+
+        if(Session::get('lang') == 'en'){
+            return Redirect::back()->with('message', 'Store عحيشفثي Successfully, you can Re-edit your store infromation later.');
+            }
+        return Redirect::back()->with('message', 'تم إنشاء المتجر بنجاح، يمكنك تعديل بيانات متجرك لاحقاً.');
+        }
     }
 
     /**

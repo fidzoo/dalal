@@ -14,7 +14,7 @@ class MainCategory extends Model
     	return $this->belongsTo('App\Section');
     }
 
-	public function subSection(){
-    	return $this->belongsToMany('App\SubSection');
+	public function subCategories(){
+    	return $this->belongsToMany('App\SubCategory');
     }    
 }

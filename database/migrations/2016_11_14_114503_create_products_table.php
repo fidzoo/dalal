@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('en_short_descrip');
             $table->text('ar_long_descrip');
             $table->text('en_long_descrip');
+            $table->float('price');
             $table->integer('stock');
             $table->integer('sell_count');
             $table->timestamps();

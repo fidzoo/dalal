@@ -10,8 +10,8 @@ class SubCategory extends Model
     	'ar_title', 'en_title'
     ];
 
-    public function mainSection(){
-    	return $this->belongsToMany('App\MainSection');
+    public function mainCategories(){
+    	return $this->belongsToMany('App\MainCategory');
     }
 
 }
