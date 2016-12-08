@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSectionsTable extends Migration
+class CreateSizesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('sizes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ar_title');
-            $table->string('en_title');
-            $table->string('image')->nullable();
+            $table->string('ar_size')->length('20');
+            $table->string('en_size')->length('20');
+            $table->string('sizeable_type')->length('30');
+            $table->integer('sizeable_id');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateSectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('sizes');
     }
 }

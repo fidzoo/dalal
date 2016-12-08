@@ -14,7 +14,8 @@ class Product extends Model
     	return $this->belongsTo('App\Store');
     }
 
-    public function specs(){
-    	return $this->morphMany('App\ProductSpecs', 'specsable');
+    public function sizes(){
+    	return $this->morphMany('App\Size', 'sizeable');
     }
+
 }

@@ -22,12 +22,19 @@ Auth::routes();
 Route::get('merch-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('buyer-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('admin-reg', 'Auth\RegisterController@showRegistrationForm');
-//------Country Area----------
+//------Country Area-----------
 Route::resource('country', 'CountryController');
+//------Section Area-----------
+Route::resource('section', 'SectionController');
+//------Main Category Area-----------
+Route::resource('main-category', 'MainCategoryController');
+//------Sub Category Area-----------
+Route::resource('sub-category', 'SubCategoryController');
 //------Stores Area------------
 Route::resource('store', 'StoreController');
 //------Products Area----------
 Route::resource('product', 'ProductController');
+
 
 
 

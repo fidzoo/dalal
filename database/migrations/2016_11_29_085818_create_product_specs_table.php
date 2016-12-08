@@ -16,7 +16,7 @@ class CreateProductSpecsTable extends Migration
         Schema::create('product_specs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ar_title')->length('25');
-            $table->string('ar_detail');
+            $table->string('ar_detail')->nullable();
             $table->string('en_title')->length('25')->nullable();
             $table->string('en_detail')->nullable();
             $table->string('specsable_type')->length('20');

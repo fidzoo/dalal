@@ -15,6 +15,14 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('ar_title')->length(100)->nullable();
+            $table->string('en_title')->length(100)->nullable();
+            $table->string('ar_description')->nullable();
+            $table->string('en_description')->nullable();
+            $table->string('path_ar')->nullable(); //for image arabic version
+            $table->string('path_en')->nullable(); //for image english version
+            $table->string('imageable_type')->length('30');
+            $table->integer('imageable_id');
             $table->timestamps();
         });
     }

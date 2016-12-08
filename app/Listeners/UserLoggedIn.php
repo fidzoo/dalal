@@ -39,7 +39,7 @@ class UserLoggedIn
         }
         elseif($user_group == 'admin'){
             //$admin_role= auth()->user()->roles[0]->role;
-            Session::put(['group'=> 'person', 'user_id'=> $user_id]);
+            Session::put(['group'=> 'admin', 'user_id'=> $user_id]);
         }
     }
 }

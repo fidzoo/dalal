@@ -1,3 +1,1 @@
-@foreach ($ar as $a)
-	{!! $loop->count !!}
-@endforeach
+<img src='{!! asset($section->image) !!}'>

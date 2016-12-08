@@ -18,6 +18,7 @@ class CreateMainCategoriesTable extends Migration
             $table->boolean('approve'); //0: not approved yet, 1: approved
             $table->string('ar_title');
             $table->string('en_title');
+            $table->string('image')->nullable();
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->timestamps();

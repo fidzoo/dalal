@@ -14,4 +14,11 @@ class SubCategory extends Model
     	return $this->belongsToMany('App\MainCategory');
     }
 
+    public function sizes(){
+    	return $this->morphMany('App\Size', 'sizeable');
+    }
+
+    public function specs(){
+    	return $this->morphMany('App\ProductSpecs', 'specsable');
+    }
 }

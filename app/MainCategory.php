@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MainCategory extends Model
 {
     protected $fillable= [
-    	'ar_title', 'en_title', 'section_id'
+    	'ar_title', 'en_title', 'image', 'section_id'
     ];
 
     public function section(){
