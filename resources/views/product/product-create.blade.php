@@ -37,27 +37,13 @@ body
 {!! Form::text('en_short_descrip', "", ['class'=>'form-control']) !!}<br>
 
 {!! Form::label('وصف طويل للمنتج بالعربية') !!}
-{!! Form::text('ar_long_descrip', "", ['class'=>'form-control']) !!}<br>
+{!! Form::textarea('ar_long_descrip', "", ['class'=>'form-control']) !!}<br>
 {!! Form::label('وصف طويل للمنتج بالإنجليزية') !!}
-{!! Form::text('en_long_descrip', "", ['class'=>'form-control']) !!}<br>
+{!! Form::textarea('en_long_descrip', "", ['class'=>'form-control']) !!}<br>
 
 <h3>مواصفات المنتج</h3>
 {!! Form::label('عنوان الوصف') !!}
-{!! Form::text('spec_title-1', "", ['class'=>'form-control', 'maxlength'=>25]) !!}<br>
-{!! Form::label('التفصيل') !!}
-{!! Form::text('spec_detail-1', "", ['class'=>'form-control']) !!}<br>
-@for($i=2; $i < 6; $i++)
-<div class="div"></div>
-{!! Form::label('عنوان الوصف') !!}
-{!! Form::text('spec_title-'.$i, "", ['class'=>'form-control']) !!}<br>
-{!! Form::label('التفصيل') !!}
-{!! Form::text('spec_detail-'.$i, "", ['class'=>'form-control']) !!}<br>
-@endfor
-<br>
-<div class="col-xs-12 col-md-12 block-center  col-xs-12" id="loadMore">
-    <a class="load-more2 btn btn-info center-block"> المزيد</a>
-    <br/> <br/>
-</div>
+<br><br>
 
 {!! Form::label('هل المنتج بألوان؟') !!}<br>
 {!! Form::checkbox('colors') !!}<br>

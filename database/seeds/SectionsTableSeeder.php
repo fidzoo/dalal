@@ -14,87 +14,89 @@ class SectionsTableSeeder extends Seeder
         DB::table('sections')->insert([
             'ar_title' => 'ملابس رجال',
             'en_title' => 'Men’s Clothing',
+            'active'    => 1,
         ]);
 
         DB::table('sections')->insert([
             'ar_title' => 'هواتف وساعات',
             'en_title' => 'Phones & Accessories',
+            'active'    => 1,
         ]);
 
         //------------------------------------
         DB::table('main_categories')->insert([
             'section_id' => '1',
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'علوي',
             'en_title' => 'Tops',
         ]);
 
         DB::table('main_categories')->insert([
             'section_id' => '1',
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'سفلي',
             'en_title' => 'Bottoms',
         ]);
 
         DB::table('main_categories')->insert([
             'section_id' => '2',
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'هواتف',
             'en_title' => 'Phones',
         ]);
 
         DB::table('main_categories')->insert([
             'section_id' => '2',
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'ساعات',
             'en_title' => 'Watches',
         ]);
 
         //-----------------------------------
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'قمصان',
             'en_title' => 'Shirts',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'هوودي',
             'en_title' => 'Hoodies',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'بناطيل',
             'en_title' => 'Pants',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'جينز',
             'en_title' => 'Jeans',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'نوكيا',
             'en_title' => 'Nokia',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'سامسونج',
             'en_title' => 'Samsung',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'رولكس',
             'en_title' => 'Rolex',
         ]);
 
         DB::table('sub_categories')->insert([
-            'approve' => '1',
+            'active' => '1',
             'ar_title' => 'بنطال-ساعة',
             'en_title' => 'Pant-Watch',
         ]);

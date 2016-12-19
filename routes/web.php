@@ -30,6 +30,9 @@ Route::resource('section', 'SectionController');
 Route::resource('main-category', 'MainCategoryController');
 //------Sub Category Area-----------
 Route::resource('sub-category', 'SubCategoryController');
+Route::resource('sub-category-list', 'SubCategoryController@subList');
+Route::post('/deleteSize', 'SubCategoryController@deleteSize');
+Route::post('/deleteSpec', 'SubCategoryController@deleteSpec');
 //------Stores Area------------
 Route::resource('store', 'StoreController');
 //------Products Area----------
@@ -79,9 +82,15 @@ Route::get('/ajax-subcategory', function(){
 
 
 //-------------------------------------
-Route::post('test', function(){
-	return Request::input('country-code');
+Route::get('test', function(){
+	return view('test2');
 });
+
+//ajax CRUD test	
+Route::get('/show', 'TestController@showItems');
+Route::post('/addItem', 'TestController@addItem');
+Route::post('/editItem', 'TestController@editItem');
+Route::post('/deleteItem', 'TestController@deleteItem');
 
 //--------Sessions Test---------------
 Route::get('session', function(){

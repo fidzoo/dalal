@@ -50,13 +50,14 @@ class SectionController extends Controller
             $section= new Section;
             $section->ar_title= $request->input('ar_title');
             $section->en_title= $request->input('en_title');
+            $section->active= 1;
 
             if ($request->file('image')){
             $file= $request->file('image');
-            $destinationPath= 'ar-assets\images';
+            $destinationPath= 'ar-assets\back-end\images';
             $filename= rand().$file->getClientOriginalName();
             $file->move($destinationPath, $filename);
-            $section->image= "ar-assets\images/".$filename;
+            $section->image= "ar-assets\back-end\images/".$filename;
             }
             $section->save();
 
@@ -105,14 +106,15 @@ class SectionController extends Controller
             $section= Section::find($id);
             $section->ar_title= $request->input('ar_title');
             $section->en_title= $request->input('en_title');
+            $section->active= $request->input('active');
 
             if ($request->file('image')){
                 File::delete($section->image);
             $file= $request->file('image');
-            $destinationPath= 'ar-assets\images';
+            $destinationPath= 'ar-assets\back-end\images';
             $filename= rand().$file->getClientOriginalName();
             $file->move($destinationPath, $filename);
-            $section->image= "ar-assets\images/".$filename;
+            $section->image= "ar-assets\back-end\images/".$filename;
             }
             $section->save();
 
@@ -131,6 +133,7 @@ class SectionController extends Controller
     {
         if(Session::get('group') == 'admin'){
             $section= Section::find($id);
+            File::delete($section->image);
             $section->delete();
 
             return Redirect::back()->with('message', 'تم حذف السيكشن بنجاح!');

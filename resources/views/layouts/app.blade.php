@@ -78,7 +78,11 @@
             </div>
         </div>
     </nav>
-
+    @if (Session::has('message'))
+        <div id="message" class='alert alert-success'>
+            <p><h1> {!! Session::get('message') !!} </h1></p> 
+        </div>
+    @endif
     @yield('content')
 
     <!-- Scripts -->

@@ -49,14 +49,14 @@ class MainCategoryController extends Controller
             $main_cat->ar_title= $request->input('ar_title');
             $main_cat->en_title= $request->input('en_title');
             $main_cat->section_id= $request->input('section');
-            $main_cat->approve= 0;
+            $main_cat->active= 1;
             
             if ($request->file('image')){
             $file= $request->file('image');
-            $destinationPath= 'ar-assets\images';
+            $destinationPath= 'ar-assets\back-end\images';
             $filename= rand().$file->getClientOriginalName();
             $file->move($destinationPath, $filename);
-            $main_cat->image= "ar-assets\images/".$filename;
+            $main_cat->image= "ar-assets\back-end\images/".$filename;
             }
             $main_cat->save();
 
@@ -107,18 +107,19 @@ class MainCategoryController extends Controller
             $main_cat->ar_title= $request->input('ar_title');
             $main_cat->en_title= $request->input('en_title');
             $main_cat->section_id= $request->input('section');
+            $main_cat->active= $request->input('active');
 
             if ($request->file('image')){
                 File::delete($main_cat->image);
             $file= $request->file('image');
-            $destinationPath= 'ar-assets\images';
+            $destinationPath= 'ar-assets\back-end\images';
             $filename= rand().$file->getClientOriginalName();
             $file->move($destinationPath, $filename);
-            $main_cat->image= "ar-assets\images/".$filename;
+            $main_cat->image= "ar-assets\back-end\images/".$filename;
             }
             $main_cat->save();
 
-            return Redirect::back()->with('message', 'تم تحديث القسك الرئيسي بنجاح!');
+            return Redirect::back()->with('message', 'تم تحديث القسم الرئيسي بنجاح!');
             }
         else return Redirect('/');
     }
@@ -133,6 +134,7 @@ class MainCategoryController extends Controller
     {
         if(Session::get('group') == 'admin'){
             $main_cat= MainCategory::find($id);
+            File::delete($main_cat->image);
             $main_cat->delete();
 
             return Redirect::back()->with('message', 'تم حذف السيكشن بنجاح!');

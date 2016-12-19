@@ -15,9 +15,10 @@ class CreateSubCategoriesTable extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('approve'); //0: not approved yet, 1: approved
+            $table->boolean('active'); //0: not active, 1: active
             $table->string('ar_title');
             $table->string('en_title');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class CreateSectionsTable extends Migration
             $table->string('ar_title');
             $table->string('en_title');
             $table->string('image')->nullable();
+            $table->boolean('active'); //0: not active, 1: active
             $table->timestamps();
         });
     }

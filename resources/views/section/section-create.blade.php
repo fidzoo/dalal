@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.ar-admin-dash')
 
 @section('content')
 
@@ -15,7 +15,7 @@
 {!! Form::label('أيقونة السيكشن') !!}
 {!! Form::file('image') !!}<br>
 
-{!! Form::submit('إضافة') !!}
+{!! Form::submit('إضافة', ['class'=>'btn btn-primary btn-lg btn-block']) !!}
 {!! Form::close() !!}
 
 @stop

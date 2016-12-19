@@ -7,6 +7,7 @@ use App\Product;
 use App\Section;
 use App\MainCategory;
 use App\SubCategory;
+use App\ProductSpecs;
 use App\Http\Requests;
 use Session, Redirect, File;
 
@@ -38,11 +39,14 @@ class ProductController extends Controller
         if(Session::get('group') == 'merchant'){
         //get dropdowns Values
         $sections= Section::pluck('ar_title', 'id');
+
+        //get specs heads:
+        $specs= ProductSpecs::all();
         
         if(Session::get('lang') == 'en'){
-            return view('en.product.product-create', compact('sections'));
+            return view('en.product.product-create', compact('sections', 'specs'));
             }
-        return view('product.product-create', compact('sections'));
+        return view('product.product-create', compact('sections', 'specs'));
         }
         else return Redirect('/');
     }

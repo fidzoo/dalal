@@ -6,6 +6,9 @@
 
 {!! Form::open(["url"=> "main-category/$main_category->id", "files"=>true, "method"=>"patch", "class"=>"form-group"]) !!}
 
+{!! Form::label('تفعيل القسم') !!}
+{!! Form::select('active',  [0=>"القسم غير مفعّل", 1=>"القسم مفعّل"], $main_category->active, ['class'=>'form-control']) !!}<br>
+
 {!! Form::label('عنوان القسم بالعربية') !!}
 {!! Form::text('ar_title', $main_category->ar_title, ['class'=>'form-control', 'required']) !!}<br>
 
