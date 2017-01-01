@@ -16,6 +16,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('approve'); //0: Pending, 1: approved 2:rejected
+            $table->integer('store_id');
+            $table->integer('sub_category_id');
             $table->string('ar_title');
             $table->string('en_title');
             $table->string('ar_short_descrip');
@@ -23,8 +25,10 @@ class CreateProductsTable extends Migration
             $table->text('ar_long_descrip');
             $table->text('en_long_descrip');
             $table->float('price');
+            $table->string('currency')->length(10);
             $table->integer('stock');
-            $table->integer('sell_count');
+            $table->integer('sell_count')->nullable();
+            $table->string('colors_type')->length(6)->nullable();
             $table->timestamps();
         });
     }

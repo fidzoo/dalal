@@ -8,10 +8,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use App\Country;
+use App\City;
 use Session;
 
 class RegisterController extends Controller
 {
+    /*Customized functions inside this controller
+    * city()
+    */
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -40,6 +45,16 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    //ajax City menu 
+    public function city(Request $request)
+    {
+        $country_id= $request->input('country_id');
+
+        $cites= City::where('country_id', $country_id)->get();
+
+        return $cites;
     }
 
     /**

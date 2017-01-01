@@ -24,7 +24,8 @@
   <link href='{!! asset("ar-assets/back-end/css/style.css") !!}' rel="stylesheet">
   <link href='{!! asset("ar-assets/back-end/css/style-responsive.css") !!}' rel="stylesheet">
 
-
+<script src='{!! asset("ar-assets/back-end/js/jquery-1.10.2.min.js") !!}'></script>
+<script src='{!! asset("ar-assets/back-end/js/jquery-ui-1.9.2.custom.min.js") !!}'></script>
 
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -55,7 +56,7 @@
             <!-- visible to small devices only -->
             <div class="visible-xs hidden-sm hidden-md hidden-lg">
                 <div class="media logged-user">
-                    <img alt="" src='{!! asset("images/photos/user-avatar.png") !!}' class="media-object">
+                    <img alt="" src='{!! asset("ar-assets/back-end/images/photos/user-avatar.png") !!}' class="media-object">
                     <div class="media-body">
                         <h4><a href="#">John Doe</a></h4>
                         <span>"Hello There..."</span>
@@ -72,6 +73,12 @@
 
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list nav-active"><a href="index.html"><i class="fa fa-home"></i> <span>Stores</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href='{!! URL::to("my-stores") !!}'> My Stores</a></li>
+                        <li><a href="#"> Not yet</a></li>
+                    </ul>
+                </li>
                 <li class="menu-list nav-active"><a href="index.html"><i class="fa fa-home"></i> <span>Dashboard</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="index_alt.html"> Dashboard 1</a></li>
@@ -408,38 +415,14 @@
 </section>
 
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src='{!! asset("ar-assets/back-end/js/jquery-1.10.2.min.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/jquery-ui-1.9.2.custom.min.js") !!}'></script>
+
 <script src='{!! asset("ar-assets/back-end/js/jquery-migrate-1.2.1.min.js") !!}'></script>
 <script src='{!! asset("ar-assets/back-end/js/bootstrap.min.js") !!}'></script>
 <script src='{!! asset("ar-assets/back-end/js/modernizr.min.js") !!}'></script>
 <script src='{!! asset("ar-assets/back-end/js/jquery.nicescroll.js") !!}'></script>
 
-<!--easy pie chart-->
-<script src='{!! asset("ar-assets/back-end/js/easypiechart/jquery.easypiechart.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/easypiechart/easypiechart-init.js") !!}'></script>
-
-<!--Sparkline Chart-->
-<script src='{!! asset("ar-assets/back-end/js/sparkline/jquery.sparkline.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/sparkline/sparkline-init.js") !!}'></script>
-
-<!--icheck -->
-<script src='{!! asset("ar-assets/back-end/js/iCheck/jquery.icheck.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/icheck-init.js") !!}'></script>
-
-<!-- jQuery Flot Chart-->
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.tooltip.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.resize.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.pie.resize.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.selection.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.stack.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/flot-chart/jquery.flot.time.js") !!}'></script>
-<script src='{!! asset("ar-assets/back-end/js/main-chart.js") !!}'></script>
-
 <!--common scripts for all pages-->
 <script src='{!! asset("ar-assets/back-end/js/scripts.js") !!}'></script>
-
 
 </body>
 </html>

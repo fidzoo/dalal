@@ -9,6 +9,12 @@ use Session, Redirect, File;
 
 class StoreController extends Controller
 {
+    /*Customized functions inside controller:
+    * - merchStoreList
+    *
+    */
+
+
     public function __construct()
         {
             $this->middleware('auth', ['except' => [
@@ -56,8 +62,8 @@ class StoreController extends Controller
         $store->en_name= $request->input('en_name');
         $store->ar_description= $request->input('ar_description');
         $store->en_description= $request->input('en_description');
-        $store->approve= 0;
         $store->active= 0;
+        $store->user_id= Session::get('user_id');
         
         //Upload Logos, Banners images
         if ($request->file('ar_logo')){
@@ -109,6 +115,18 @@ class StoreController extends Controller
         return Redirect::back()->with('message', 'تم إنشاء المتجر بنجاح، يمكنك تعديل بيانات متجرك لاحقاً.');
         }
     }
+
+    /*
+    * To display list of Merchent's stores
+    */
+    public function merchStoreList(){
+        $stores= Store::where('user_id', Session::get('user_id'))->get();
+        
+        if(Session::get('lang') == 'en'){
+            return view('en.store.merchant-store-list', compact('stores'));
+        }
+            return view('store.merchant-store-list', compact('stores'));
+    } 
 
     /**
      * Display the specified resource.

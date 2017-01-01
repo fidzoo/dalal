@@ -10,6 +10,21 @@ use Session, Redirect, File;
 
 class MainCategoryController extends Controller
 {
+    /*
+    * Cutomuzid functions in this controller 
+    * - ajaxMcategory()
+    */
+
+    public function ajaxMcategory(Request $request)
+    {
+        $section_id= $request->input('section_id');
+
+        $mcategories= MainCategory::where('section_id', $section_id)->get();
+
+    return $mcategories;
+    }
+
+
     /**
      * Display a listing of the resource.
      *

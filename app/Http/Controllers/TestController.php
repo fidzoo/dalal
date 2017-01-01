@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\test;
+use App\City;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Validator, Response;
 
 class TestController extends Controller
 {
-    
-	//Ajax Controllers
+
+    public function test(Request $request){
+        return $request->input('select');
+    }
+
+    //Ajax Controllers
     public function addItem(Request $request) {
     $rules = array (
             'name' => 'required'

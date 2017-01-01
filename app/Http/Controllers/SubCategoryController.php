@@ -14,8 +14,12 @@ class SubCategoryController extends Controller
 {
     /**
     List of aditional customized methods:
+    - subList
     - deleteSize
     - deleteSpec
+    - ajaxSubcategory
+    - ajaxSizes
+    - ajaxSpecs
     **/
 
     public function __construct()
@@ -34,6 +38,31 @@ class SubCategoryController extends Controller
         
 
         return view ('sub-category.sub-category-list', compact('main_cats'));
+    }
+
+    public function ajaxSubcategory(Request $request)
+    {
+        $mcategory_id= $request->input('mcategory_id');
+        $mcategory= MainCategory::find($mcategory_id);
+        $subcategories= $mcategory->subCategories;
+
+        return $subcategories;
+    }
+
+    public function ajaxSizes(Request $request)
+    {
+        $subcat_id= $request->input('subcategory_id');
+        $sizes= Size::where('sizeable_type', 'App\SubCategory')->where('sizeable_id', $subcat_id)->get();
+
+        return $sizes;
+    }
+
+    public function ajaxSpecs(Request $request)
+    {
+        $subcat_id= $request->input('subcategory_id');
+        $specs= ProductSpecs::where('specsable_type', 'App\SubCategory')->where('specsable_id', $subcat_id)->get();
+
+        return $specs;
     }
 
 
@@ -212,7 +241,7 @@ class SubCategoryController extends Controller
                 $sub_cat->sizes()->where('id', $request->input('size_id'.$i))->update(['ar_size'=>$request->input('ar_size_edit'.$i), 'en_size'=>$request->input('en_size_edit'.$i)]);
              }
              
-            //get number of updated sizes
+            //get number of new inputed sizes
             $num= 1;
             for ($i=1 ; $i < 8 ; $i++){
                 if($request->input('ar_size'.$i)){

@@ -1,4 +1,4 @@
-@extends('layouts.admin-dash')
+@extends('layouts.ar-admin-dash')
 
 @section('content')
 <style type="text/css">
@@ -50,7 +50,7 @@
 {!! Form::submit('إضافة') !!}
 {!! Form::close() !!}
 
-<script type="text/javascript">
+<script>
 	//Sizes Add more link
 	var i= 2;
 		$("#size").click(function(){

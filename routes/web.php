@@ -22,6 +22,10 @@ Auth::routes();
 Route::get('merch-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('buyer-reg', 'Auth\RegisterController@showRegistrationForm');
 Route::get('admin-reg', 'Auth\RegisterController@showRegistrationForm');
+Route::get('/logout', function(){
+	Auth::logout();
+	return Redirect('/');
+});
 //------Country Area-----------
 Route::resource('country', 'CountryController');
 //------Section Area-----------
@@ -35,9 +39,17 @@ Route::post('/deleteSize', 'SubCategoryController@deleteSize');
 Route::post('/deleteSpec', 'SubCategoryController@deleteSpec');
 //------Stores Area------------
 Route::resource('store', 'StoreController');
+Route::get('my-stores', 'StoreController@merchStoreList');
 //------Products Area----------
-Route::resource('product', 'ProductController');
-
+Route::resource('product', 'ProductController', ['except'=> 'create']);
+Route::get('add-similar/{storeid}', function($storeid){
+	//get store id
+    $store_id= $storeid;
+	return view('product.add-simillar', compact('store_id'));
+});
+Route::post('product/create', 'ProductController@productCreate');
+Route::get('/ajax-search-products', 'ProductController@addProdSearch');
+//-----------------------------
 
 
 
@@ -50,41 +62,23 @@ Route::get('member-agreement', function(){
 
 
 
-//-----------------------------
-//ajax City menu 
-Route::get('/ajax-city', function(){
-	$country_id= Request::input('country_id');
+//---------------ajax menus------------------
+Route::get('/ajax-city', 'Auth\RegisterController@city');
+Route::get('/ajax-mcategory', 'MainCategoryController@ajaxMcategory');
+Route::get('/ajax-subcategory', 'SubCategoryController@ajaxSubcategory');
+Route::get('/ajax-sizes', 'SubCategoryController@ajaxSizes');
+Route::get('/ajax-specs', 'SubCategoryController@ajaxSpecs');
 
-	$cites= App\City::where('country_id', $country_id)->get();
-
-	return $cites;
-});
-
-//ajax Main Category menu 
-Route::get('/ajax-mcategory', function(){
-	$section_id= Request::input('section_id');
-
-	$mcategories= App\MainCategory::where('section_id', $section_id)->get();
-
-	return $mcategories;
-});
-
-//ajax Sub Category menu 
-Route::get('/ajax-subcategory', function(){
-	$mcategory_id= Request::input('mcategory_id');
-	$mcategory= App\MainCategory::find($mcategory_id);
-	$subcategories= $mcategory->subCategories;
-
-	return $subcategories;
-});
 
 
 
 
 //-------------------------------------
-Route::get('test', function(){
+Route::post('test', 'testcontroller@test');
+Route::get('test2', function(){
 	return view('test2');
 });
+//--------------------------------------
 
 //ajax CRUD test	
 Route::get('/show', 'TestController@showItems');
