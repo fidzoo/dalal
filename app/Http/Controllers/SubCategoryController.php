@@ -7,19 +7,25 @@ use App\MainCategory;
 use App\SubCategory;
 use App\Size;
 use App\ProductSpecs;
+use App\Product;
+use App\Banner;
 use App\Http\Requests;
-use Session, Redirect, File;
+use Session, Redirect, File, DB;
 
 class SubCategoryController extends Controller
 {
     /**
     List of aditional customized methods:
-    - subList
-    - deleteSize
-    - deleteSpec
-    - ajaxSubcategory
-    - ajaxSizes
-    - ajaxSpecs
+    - subList()
+    - deleteSize()
+    - deleteSpec()
+    - ajaxSubcategory()
+    - ajaxSizes()
+    - ajaxSpecs()
+    - categoryRequestForm(): [Merchant] To display Category request Form.
+    - categoryRequestSubmit(): [Merchant] submit suggested categories.   
+    - categoryRequestDisplay(): [Admin] To display the Categories requests list
+    - categoryRequestDelete():  [Admin] To delete the Category request   
     **/
 
     public function __construct()
@@ -36,15 +42,17 @@ class SubCategoryController extends Controller
     {
         $main_cats= MainCategory::with('subCategories')->get();
         
-
-        return view ('sub-category.sub-category-list', compact('main_cats'));
+        if(Session::get('lang') == 'en'){
+            return view ('en.sub-category.sub-category-list', compact('main_cats'));
+        }
+            return view ('ar.sub-category.sub-category-list', compact('main_cats'));
     }
 
     public function ajaxSubcategory(Request $request)
     {
         $mcategory_id= $request->input('mcategory_id');
         $mcategory= MainCategory::find($mcategory_id);
-        $subcategories= $mcategory->subCategories;
+        $subcategories= $mcategory->approveSubCats;
 
         return $subcategories;
     }
@@ -52,7 +60,8 @@ class SubCategoryController extends Controller
     public function ajaxSizes(Request $request)
     {
         $subcat_id= $request->input('subcategory_id');
-        $sizes= Size::where('sizeable_type', 'App\SubCategory')->where('sizeable_id', $subcat_id)->get();
+        $subcat= SubCategory::find($subcat_id);
+        $sizes= $subcat->sizes()->get();
 
         return $sizes;
     }
@@ -87,7 +96,10 @@ class SubCategoryController extends Controller
             //get Sections for dropdown list
             $main_categories= MainCategory::pluck('ar_title', 'id');
 
-            return view('sub-category.sub-category-create', compact('main_categories'));
+            if(Session::get('lang') == 'en'){
+                return view('en.sub-category.sub-category-create', compact('main_categories'));
+            }
+                return view('ar.sub-category.sub-category-create', compact('main_categories'));
         }
         else return Redirect('/');
     }
@@ -106,6 +118,7 @@ class SubCategoryController extends Controller
             $sub_cat->en_title= $request->input('en_title');
             $sub_cat->active= 1;
             
+            //icon image
             if ($request->file('image')){
             $file= $request->file('image');
             $destinationPath= 'ar-assets\back-end\images';
@@ -113,6 +126,25 @@ class SubCategoryController extends Controller
             $file->move($destinationPath, $filename);
             $sub_cat->image= "ar-assets\back-end\images/".$filename;
             }
+
+            //Arabic banner image
+            if ($request->file('ar_banner')){
+            $file= $request->file('ar_banner');
+            $destinationPath= 'ar-assets\back-end\images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $sub_cat->ar_banner= "ar-assets\back-end\images/".$filename;
+            }
+
+            //English banner image
+            if ($request->file('en_banner')){
+            $file= $request->file('en_banner');
+            $destinationPath= 'ar-assets\back-end\images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $sub_cat->en_banner= "ar-assets\back-end\images/".$filename;
+            }
+
             $sub_cat->save();
 
             //Save Main Categories
@@ -142,10 +174,75 @@ class SubCategoryController extends Controller
                 $sub_cat->specs()->create(['ar_title'=>$request->input('ar_title'.$x), 'en_title'=>$request->input('en_title'.$x)]);
              } 
             
-
-            return Redirect::back()->with('message', 'تم إنشاء القسم الفرعي بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('sub-category-list')->with('message', 'Sub Category Created Successfully!');
+            }
+                return Redirect::to('sub-category-list')->with('message', 'تم إنشاء القسم الفرعي بنجاح!');
         }
         else return Redirect('/');
+    }
+
+    /*
+    * To display Category request Form.
+    */
+    public function categoryRequestForm()
+    {
+        if(Session::get('group') == 'merchant'){
+            if(Session::get('lang') == 'en'){
+            return view('en.sub-category.category-request');
+            }
+            return view('ar.sub-category.category-request');    
+        }
+        
+    }
+
+    /*
+    * submit suggested categories.
+    */
+    public function categoryRequestSubmit(Request $request){
+
+        if(Session::get('group') == 'merchant'){
+            DB::table('categories_requests')->insert(['ar_category'=>$request->input('ar_category'), 'en_category'=>$request->input('en_category'), 'type'=>$request->input('type'), 'user_id'=>Auth()->user()->id, 'created_at'=>date("Y-m-d H:i:s")]);
+
+            //create notification
+            DB::table('notifications')->insert(['belongs_to'=>'admin', 'ar_title'=>'طلب إضافة قسم جديد', 'en_title'=>'New category create request', 'link'=>'categories-request-display', 'group'=>'cat-request', 'read'=>'0']);
+
+        if(Session::get('lang') == 'en'){
+            return Redirect::back()->with('message', 'New Category Request Sent Successfully');
+            }
+            return Redirect::back()->with('message', 'تم إرسال طلب إضافة القسم بنجاح');
+        }
+        
+    }
+
+    /*
+    * [Admin] To display the Categories requests list 
+    */
+    public function categoryRequestDisplay()
+    {
+        if(Session::get('group') == 'admin'){
+         $cats_requests= DB::table('categories_requests')->orderBy('id','desc')->get();
+        
+        if(Session::get('lang') == 'en'){
+            return view('en.sub-category.categories-request-display', compact('cats_requests'));
+            }
+            return view('ar.sub-category.categories-request-display', compact('cats_requests'));   
+        }
+    }
+
+    /*
+    * [Admin] To delete the Category request 
+    */
+    public function categoryRequestDelete($id)
+    {
+        if(Session::get('group') == 'admin'){
+            DB::table('categories_requests')->where('id', $id)->delete();
+
+            if(Session::get('lang') == 'en'){
+            return Redirect::back()->with('message', 'Category Request Deleted Successfully!');
+            }
+            return Redirect::back()->with('message', 'تم حذف طلب الإضافة بنجاح!');
+        }
     }
 
     /**
@@ -156,8 +253,14 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        //for MainCategory drop down.
-        $main_cats= MainCategory::pluck('ar_title', 'id');
+        $sub_category= SubCategory::where('id', $id)->with('sizes.products')->first();
+        $products= Product::where('approve', 1)->where('sub_category_id', $id)->with('productImages', 'rating')->paginate(21);
+        $banner= Banner::find(4);
+
+        if(Session::get('lang') == 'en'){
+            return view('en.sub-category.category-products-show', compact('sub_category', 'products', 'banner'));
+            }
+            return view('ar.sub-category.category-products-show', compact('sub_category', 'products', 'banner'));
 
     }
 
@@ -196,7 +299,10 @@ class SubCategoryController extends Controller
                 array_push($en_specs, $spec->en_title);
                 }
             
-            return view('sub-category.sub-category-edit', compact('sub_cat', 'main_cats', 'selected', 'sizes_id', 'ar_sizes', 'en_sizes', 'specs_id', 'ar_specs', 'en_specs'));
+            if(Session::get('lang') == 'en'){
+                return view('en.sub-category.sub-category-edit', compact('sub_cat', 'main_cats', 'selected', 'sizes_id', 'ar_sizes', 'en_sizes', 'specs_id', 'ar_specs', 'en_specs'));
+            }
+                return view('ar.sub-category.sub-category-edit', compact('sub_cat', 'main_cats', 'selected', 'sizes_id', 'ar_sizes', 'en_sizes', 'specs_id', 'ar_specs', 'en_specs'));
         }
         else return Redirect('/');
     }
@@ -216,6 +322,7 @@ class SubCategoryController extends Controller
             $sub_cat->en_title= $request->input('en_title');
             $sub_cat->active= $request->input('active');
             
+            //Update icon image
             if ($request->file('image')){
             File::delete($sub_cat->image);
             $file= $request->file('image');
@@ -224,6 +331,27 @@ class SubCategoryController extends Controller
             $file->move($destinationPath, $filename);
             $sub_cat->image= "ar-assets\back-end\images/".$filename;
             }
+
+            //Arabic banner image
+            if ($request->file('ar_banner')){
+            File::delete($sub_cat->ar_banner);
+            $file= $request->file('ar_banner');
+            $destinationPath= 'ar-assets\back-end\images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $sub_cat->ar_banner= "ar-assets\back-end\images/".$filename;
+            }
+
+            //English banner image
+            if ($request->file('en_banner')){
+            File::delete($sub_cat->en_banner);
+            $file= $request->file('en_banner');
+            $destinationPath= 'ar-assets\back-end\images';
+            $filename= rand().$file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $sub_cat->en_banner= "ar-assets\back-end\images/".$filename;
+            }
+
             $sub_cat->save();
 
             //Save Main Categories
@@ -238,7 +366,8 @@ class SubCategoryController extends Controller
              }
             //Update & Save "OLD" Sizes (Get many sizes using for loop)
             for ($i=1; $i < $num; $i++) { 
-                $sub_cat->sizes()->where('id', $request->input('size_id'.$i))->update(['ar_size'=>$request->input('ar_size_edit'.$i), 'en_size'=>$request->input('en_size_edit'.$i)]);
+                // $sub_cat->sizes()->where('id', $request->input('size_id'.$i))->update(['ar_size'=>$request->input('ar_size_edit'.$i), 'en_size'=>$request->input('en_size_edit'.$i)]);
+                Size::where('id', $request->input('size_id'.$i))->update(['ar_size'=>$request->input('ar_size_edit'.$i), 'en_size'=>$request->input('en_size_edit'.$i)]);
              }
              
             //get number of new inputed sizes
@@ -280,8 +409,10 @@ class SubCategoryController extends Controller
                 $sub_cat->specs()->create(['ar_title'=>$request->input('ar_title'.$x), 'en_title'=>$request->input('en_title'.$x)]);
              } 
             
-
-            return Redirect::back()->with('message', 'تم تحديث القسم الفرعي بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('sub-category-list')->with('message', 'Sub Category Updated Successfully!');
+            }
+                return Redirect::to('sub-category-list')->with('message', 'تم تحديث القسم الفرعي بنجاح!');
         }
         else return Redirect('/');
     }
@@ -310,9 +441,14 @@ class SubCategoryController extends Controller
             $sub_cat= SubCategory::find($id);
             $sub_cat->mainCategories()->detach();
             File::delete($sub_cat->image);
+            File::delete($sub_cat->ar_banner);
+            File::delete($sub_cat->en_banner);
             $sub_cat->delete();
 
-            return Redirect::back()->with('message', 'تم حذف القسم الفرعي بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Sub Category Deleted Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم حذف القسم الفرعي بنجاح!');
         }
         else return Redirect('/');
     }

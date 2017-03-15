@@ -15,10 +15,14 @@ class SubCategory extends Model
     }
 
     public function sizes(){
-    	return $this->morphMany('App\Size', 'sizeable');
+    	return $this->belongsToMany('App\Size');
     }
 
     public function specs(){
     	return $this->morphMany('App\ProductSpecs', 'specsable');
+    }
+
+    public function stores(){
+        return $this->belongsToMany('App\Store');
     }
 }

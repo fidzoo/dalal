@@ -17,8 +17,6 @@ class CreateSizesTable extends Migration
             $table->increments('id');
             $table->string('ar_size')->length('20');
             $table->string('en_size')->length('20');
-            $table->string('sizeable_type')->length('30');
-            $table->integer('sizeable_id');
             $table->timestamps();
         });
     }

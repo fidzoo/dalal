@@ -10,12 +10,50 @@ use Session, Redirect, File;
 class SectionController extends Controller
 {
     
+    /*
+    * Customized functions:
+    * - sectionsManage(): To Manage Sections/Main-Cateogries/Sub-Categories
+    * - sectionsList(): To display admin Sections List
+    */
+
     public function __construct()
         {
             $this->middleware('auth', ['except' => [
                 'index', 'show',
             ]]);
         } 
+
+    /*
+    *
+    */
+    public function sectionsManage()
+    {
+        if(Session::get('group') == 'admin'){
+
+            if(Session::get('lang') == 'en'){
+                return view('en.section.sections-manage');
+            }
+                return view('ar.section.sections-manage');
+        }
+    }
+
+    /*
+    * To display admin Sections List
+    */
+    public function sectionsList()
+    {
+        if(Session::get('group') == 'admin'){
+
+            $sections= Section::all();
+
+            if(Session::get('lang') == 'en'){
+                return view('en.section.sections-list', compact('sections'));
+            }
+                return view('ar.section.sections-list', compact('sections'));
+            
+        }
+        
+    }
 
     /**
      * Display a listing of the resource.
@@ -24,7 +62,11 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+        //The page is using sections() helpers functions:
+        if(Session::get('lang') == 'en'){
+            return view('en.section.sections-index');
+        }
+            return view('ar.section.sections-index');
     }
 
     /**
@@ -35,7 +77,10 @@ class SectionController extends Controller
     public function create()
     {
         if(Session::get('group') == 'admin'){
-            return view('section.section-create');
+            if(Session::get('lang') == 'en'){
+                return view('en.section.section-create');
+            }
+                return view('ar.section.section-create');
         }
         else return Redirect('/');
     }
@@ -63,7 +108,10 @@ class SectionController extends Controller
             }
             $section->save();
 
-            return Redirect::back()->with('message', 'تم إنشاء السيكشن بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('sections-list')->with('message', 'Section Created Successfully!');
+            }
+                return Redirect::to('sections-list')->with('message', 'تم إنشاء فئة رئيسية بنجاح!');
         }
         else return Redirect('/');
     }
@@ -90,7 +138,10 @@ class SectionController extends Controller
         if(Session::get('group') == 'admin'){
             $section= Section::find($id);
 
-            return view('section.section-edit', compact('section'));
+            if(Session::get('lang') == 'en'){
+                return view('en.section.section-edit', compact('section'));
+            }
+                return view('ar.section.section-edit', compact('section'));
         }
         else return Redirect('/');
     }
@@ -120,7 +171,10 @@ class SectionController extends Controller
             }
             $section->save();
 
-            return Redirect::back()->with('message', 'تم تحديث السيكشن بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('sections-list')->with('message', 'Section Updated Successfully!');
+            }
+                return Redirect::to('sections-list')->with('message', 'تم تحديث الفئة الرئيسية بنجاح!');
             }
         else return Redirect('/');
     }
@@ -138,7 +192,10 @@ class SectionController extends Controller
             File::delete($section->image);
             $section->delete();
 
-            return Redirect::back()->with('message', 'تم حذف السيكشن بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Section Deleted Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم حذف الفئة الرئيسية بنجاح!');
         }
         else return Redirect('/');
     }

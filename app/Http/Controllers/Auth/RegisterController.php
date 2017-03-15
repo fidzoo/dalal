@@ -35,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -76,12 +76,14 @@ class RegisterController extends Controller
             }
 
         if(Session::get('lang') == 'en'){
-            return view('en.auth.register');
+            $countries= Country::pluck('en_name', 'id');
+
+            return view('en.auth.register', compact('countries'));
             }
         
-        $countries= Country::pluck('ar_name', 'id');
+            $countries= Country::pluck('ar_name', 'id');
 
-        return view('auth.register', compact('countries'));
+            return view('ar.auth.register', compact('countries'));
     }
 
     /**

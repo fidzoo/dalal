@@ -44,7 +44,7 @@
 	width: 100%;
 	height: 100%;
 	top: 0;
-	left: 0;
+	right: 0;
 	position: absolute;
 	opacity: 0;
 	filter:Alpha(Opacity=0);
@@ -81,7 +81,7 @@
 .ui-widget-overlay {
 	position: fixed;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
 }
@@ -102,26 +102,26 @@
 	height: 7px;
 	width: 100%;
 	top: -5px;
-	left: 0;
+	right: 0;
 }
 .ui-resizable-s {
 	cursor: s-resize;
 	height: 7px;
 	width: 100%;
 	bottom: -5px;
-	left: 0;
+	right: 0;
 }
 .ui-resizable-e {
 	cursor: e-resize;
 	width: 7px;
-	right: -5px;
+	right:: -5px;
 	top: 0;
 	height: 100%;
 }
 .ui-resizable-w {
 	cursor: w-resize;
 	width: 7px;
-	left: -5px;
+	right: -5px;
 	top: 0;
 	height: 100%;
 }
@@ -129,28 +129,28 @@
 	cursor: se-resize;
 	width: 12px;
 	height: 12px;
-	right: 1px;
+	left/*oror*/: 1px;
 	bottom: 1px;
 }
 .ui-resizable-sw {
 	cursor: sw-resize;
 	width: 9px;
 	height: 9px;
-	left: -5px;
+	right: -5px;
 	bottom: -5px;
 }
 .ui-resizable-nw {
 	cursor: nw-resize;
 	width: 9px;
 	height: 9px;
-	left: -5px;
+	right: -5px;
 	top: -5px;
 }
 .ui-resizable-ne {
 	cursor: ne-resize;
 	width: 9px;
 	height: 9px;
-	right: -5px;
+	left/*oror*/: -5px;
 	top: -5px;
 }
 .ui-selectable-helper {
@@ -177,7 +177,7 @@
 }
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
 	position: absolute;
-	left: .5em;
+	right: .5em;
 	top: 50%;
 	margin-top: -8px;
 }
@@ -189,7 +189,7 @@
 .ui-autocomplete {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	cursor: default;
 }
 .ui-button {
@@ -197,7 +197,7 @@
 	position: relative;
 	padding: 0;
 	line-height: normal;
-	margin-right: .1em;
+	margin-left/**or-left**/: .1em;
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
@@ -266,27 +266,27 @@ input.ui-button {
 	margin-top: -8px;
 }
 .ui-button-icon-only .ui-icon {
-	left: 50%;
-	margin-left: -8px;
+	right: 50%;
+	margin-right: -8px;
 }
 .ui-button-text-icon-primary .ui-button-icon-primary,
 .ui-button-text-icons .ui-button-icon-primary,
 .ui-button-icons-only .ui-button-icon-primary {
-	left: .5em;
+	right: .5em;
 }
 .ui-button-text-icon-secondary .ui-button-icon-secondary,
 .ui-button-text-icons .ui-button-icon-secondary,
 .ui-button-icons-only .ui-button-icon-secondary {
-	right: .5em;
+	left/*oror*/: .5em;
 }
 
 /* button sets */
 .ui-buttonset {
-	margin-right: 7px;
+	margin-left/**or-left**/: 7px;
 }
 .ui-buttonset .ui-button {
-	margin-left: 0;
-	margin-right: -.3em;
+	margin-right: 0;
+	margin-left/**or-left**/: -.3em;
 }
 
 /* workarounds */
@@ -317,23 +317,23 @@ button.ui-button::-moz-focus-inner {
 	top: 1px;
 }
 .ui-datepicker .ui-datepicker-prev {
-	left: 2px;
-}
-.ui-datepicker .ui-datepicker-next {
 	right: 2px;
 }
+.ui-datepicker .ui-datepicker-next {
+	left/*oror*/: 2px;
+}
 .ui-datepicker .ui-datepicker-prev-hover {
-	left: 1px;
+	right: 1px;
 }
 .ui-datepicker .ui-datepicker-next-hover {
-	right: 1px;
+	left/*oror*/: 1px;
 }
 .ui-datepicker .ui-datepicker-prev span,
 .ui-datepicker .ui-datepicker-next span {
 	display: block;
 	position: absolute;
-	left: 50%;
-	margin-left: -8px;
+	right: 50%;
+	margin-right: -8px;
 	top: 50%;
 	margin-top: -8px;
 }
@@ -373,7 +373,7 @@ button.ui-button::-moz-focus-inner {
 .ui-datepicker td a {
 	display: block;
 	padding: .2em;
-	text-align: right;
+	text-align: left;
 	text-decoration: none;
 }
 .ui-datepicker .ui-datepicker-buttonpane {
@@ -385,7 +385,7 @@ button.ui-button::-moz-focus-inner {
 	border-bottom: 0;
 }
 .ui-datepicker .ui-datepicker-buttonpane button {
-	float: right;
+	float: left/*or*/;
 	margin: .5em .2em .4em;
 	cursor: pointer;
 	padding: .2em .6em .3em .6em;
@@ -393,7 +393,7 @@ button.ui-button::-moz-focus-inner {
 	overflow: visible;
 }
 .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
-	float: left;
+	float: right;
 }
 
 /* with multiple calendars */
@@ -401,7 +401,7 @@ button.ui-button::-moz-focus-inner {
 	width: auto;
 }
 .ui-datepicker-multi .ui-datepicker-group {
-	float: left;
+	float: right;
 }
 .ui-datepicker-multi .ui-datepicker-group table {
 	width: 95%;
@@ -431,33 +431,33 @@ button.ui-button::-moz-focus-inner {
 
 /* RTL support */
 .ui-datepicker-rtl {
-	direction: rtl;
+	direction: ltr;
 }
 .ui-datepicker-rtl .ui-datepicker-prev {
-	right: 2px;
-	left: auto;
+	left/*oror*/: 2px;
+	right: auto;
 }
 .ui-datepicker-rtl .ui-datepicker-next {
-	left: 2px;
-	right: auto;
+	right: 2px;
+	left/*oror*/: auto;
 }
 .ui-datepicker-rtl .ui-datepicker-prev:hover {
-	right: 1px;
-	left: auto;
+	left/*oror*/: 1px;
+	right: auto;
 }
 .ui-datepicker-rtl .ui-datepicker-next:hover {
-	left: 1px;
-	right: auto;
+	right: 1px;
+	left/*oror*/: auto;
 }
 .ui-datepicker-rtl .ui-datepicker-buttonpane {
 	clear: right;
 }
 .ui-datepicker-rtl .ui-datepicker-buttonpane button {
-	float: left;
+	float: right;
 }
 .ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current,
 .ui-datepicker-rtl .ui-datepicker-group {
-	float: right;
+	float: left/*or*/;
 }
 .ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header,
 .ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header {
@@ -467,7 +467,7 @@ button.ui-button::-moz-focus-inner {
 .ui-dialog {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	padding: .2em;
 	outline: 0;
 }
@@ -476,7 +476,7 @@ button.ui-button::-moz-focus-inner {
 	position: relative;
 }
 .ui-dialog .ui-dialog-title {
-	float: left;
+	float: right;
 	margin: .1em 0;
 	white-space: nowrap;
 	width: 90%;
@@ -485,7 +485,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
-	right: .3em;
+	left/*oror*/: .3em;
 	top: 50%;
 	width: 21px;
 	margin: -10px 0 0 0;
@@ -500,14 +500,14 @@ button.ui-button::-moz-focus-inner {
 	overflow: auto;
 }
 .ui-dialog .ui-dialog-buttonpane {
-	text-align: left;
+	text-align: right;
 	border-width: 1px 0 0 0;
 	background-image: none;
 	margin-top: .5em;
 	padding: .3em 1em .5em .4em;
 }
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-	float: right;
+	float: left/*or*/;
 }
 .ui-dialog .ui-dialog-buttonpane button {
 	margin: .5em .4em .5em 0;
@@ -516,7 +516,7 @@ button.ui-button::-moz-focus-inner {
 .ui-dialog .ui-resizable-se {
 	width: 12px;
 	height: 12px;
-	right: -5px;
+	left/*oror*/: -5px;
 	bottom: -5px;
 	background-position: 16px 16px;
 }
@@ -584,17 +584,17 @@ button.ui-button::-moz-focus-inner {
 .ui-menu .ui-icon {
 	position: absolute;
 	top: .2em;
-	left: .2em;
+	right: .2em;
 }
 
 /* right-aligned */
 .ui-menu .ui-menu-icon {
 	position: static;
-	float: right;
+	float: left/*or*/;
 }
 .ui-progressbar {
 	height: 2em;
-	text-align: left;
+	text-align: right;
 	overflow: hidden;
 }
 .ui-progressbar .ui-progressbar-value {
@@ -612,7 +612,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-slider {
 	position: relative;
-	text-align: left;
+	text-align: right;
 }
 .ui-slider .ui-slider-handle {
 	position: absolute;
@@ -641,17 +641,17 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-slider-horizontal .ui-slider-handle {
 	top: -.3em;
-	margin-left: -.6em;
+	margin-right: -.6em;
 }
 .ui-slider-horizontal .ui-slider-range {
 	top: 0;
 	height: 100%;
 }
 .ui-slider-horizontal .ui-slider-range-min {
-	left: 0;
+	right: 0;
 }
 .ui-slider-horizontal .ui-slider-range-max {
-	right: 0;
+	left/*oror*/: 0;
 }
 
 .ui-slider-vertical {
@@ -659,12 +659,12 @@ button.ui-button::-moz-focus-inner {
 	height: 100px;
 }
 .ui-slider-vertical .ui-slider-handle {
-	left: -.3em;
-	margin-left: 0;
+	right: -.3em;
+	margin-right: 0;
 	margin-bottom: -.6em;
 }
 .ui-slider-vertical .ui-slider-range {
-	left: 0;
+	right: 0;
 	width: 100%;
 }
 .ui-slider-vertical .ui-slider-range-min {
@@ -687,8 +687,8 @@ button.ui-button::-moz-focus-inner {
 	padding: 0;
 	margin: .2em 0;
 	vertical-align: middle;
-	margin-left: .4em;
-	margin-right: 22px;
+	margin-right: .4em;
+	margin-left/**or-left**/: 22px;
 }
 .ui-spinner-button {
 	width: 16px;
@@ -701,7 +701,7 @@ button.ui-button::-moz-focus-inner {
 	cursor: default;
 	display: block;
 	overflow: hidden;
-	right: 0;
+	left/*oror*/: 0;
 }
 /* more specificity required here to overide default borders */
 .ui-spinner a.ui-spinner-button {
@@ -714,7 +714,7 @@ button.ui-button::-moz-focus-inner {
 	position: absolute;
 	margin-top: -8px;
 	top: 50%;
-	left: 0;
+	right: 0;
 }
 .ui-spinner-up {
 	top: 0;
@@ -738,7 +738,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-tabs .ui-tabs-nav li {
 	list-style: none;
-	float: left;
+	float: right;
 	position: relative;
 	top: 0;
 	margin: 1px .2em 0 0;
@@ -747,7 +747,7 @@ button.ui-button::-moz-focus-inner {
 	white-space: nowrap;
 }
 .ui-tabs .ui-tabs-nav li a {
-	float: left;
+	float: right;
 	padding: .5em 1em;
 	text-decoration: none;
 }
@@ -846,7 +846,7 @@ body .ui-tooltip {
 
 .ui-datepicker-next:hover {
 	top: 2px;
-	right: 2px;
+	left/*oror*/: 2px;
 	background-color: #1CAF9A;
 	cursor: pointer;
 }
@@ -857,7 +857,7 @@ body .ui-tooltip {
 
 .ui-datepicker-prev:hover {
 	top: 2px;
-	left: 2px;
+	right: 2px;
 	background-color: #1CAF9A;
 	cursor: pointer;
 }
@@ -980,7 +980,7 @@ body .ui-tooltip {
 
 .ui-slider-vertical .ui-slider-handle {
 	top: auto;
-	left: -7px;
+	right: -7px;
 }
 
 

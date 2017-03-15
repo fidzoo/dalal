@@ -17,4 +17,15 @@ class City extends Model
     public function users(){
     	return $this->hasMany('App\User');
     }
+
+    public function shippingCos(){
+    	return $this->belongsToMany('App\ShippingCompany')->withPivot('city_id', 'shipping_company_id', 'price', 'currency_id');
+    }
+
+    public function shipCheck()
+    {
+        return $this->belongsToMany('App\ShippingCompany')->withPivot('product_id', 'shipping_company_id', 'city_id', 'price', 'currency_id', 'duration', 'tracking');
+    }
+    
+    
 }

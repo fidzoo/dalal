@@ -14,7 +14,19 @@ class Store extends Model
     	return $this->belongsTo('App\User');
     }
 
+    public function country(){
+        return $this->belongsTo('App\Country');
+    }
+
+    public function city(){
+        return $this->belongsTo('App\City');
+    }
+
     public function products(){
         return $this->hasMany('App\Product');
+    }
+
+    public function subCategories(){
+    	return $this->belongsToMany('App\SubCategory');
     }
 }

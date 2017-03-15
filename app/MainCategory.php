@@ -16,5 +16,9 @@ class MainCategory extends Model
 
 	public function subCategories(){
     	return $this->belongsToMany('App\SubCategory');
-    }    
+    }
+
+    public function approveSubCats(){
+    	return $this->belongsToMany('App\SubCategory')->where('active', 1);
+    }      
 }

@@ -25,10 +25,23 @@ class CreateProductsTable extends Migration
             $table->text('ar_long_descrip');
             $table->text('en_long_descrip');
             $table->float('price');
-            $table->string('currency')->length(10);
+            $table->string('price_type')->length(50)->nullable();//price for single piece/Bluk and so on.
+            $table->boolean('price_offer')->nullable();
+            $table->float('offer_price')->nullable();
+            $table->boolean('qty_offer');
+            $table->integer('currency_id');
             $table->integer('stock');
             $table->integer('sell_count')->nullable();
             $table->string('colors_type')->length(6)->nullable();
+            $table->string('ar_unit_type')->length(20)->nullable();
+            $table->string('en_unit_type')->length(20)->nullable();
+            $table->string('ar_package_weight')->nullable();
+            $table->string('en_package_weight')->nullable();
+            $table->string('ar_package_size')->nullable();
+            $table->string('en_package_size')->nullable();
+            $table->string('video')->length(300)->nullable();
+            $table->float('rating_percent')->nullable();
+            $table->boolean('todays_deal')->nullable();
             $table->timestamps();
         });
     }

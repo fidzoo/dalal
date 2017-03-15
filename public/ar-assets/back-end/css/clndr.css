@@ -42,11 +42,11 @@ html[xmlns] .clearfix {
 }
 .cal1 .clndr .clndr-controls .clndr-control-button {
     display: inline-block;
-    text-align: right;
+    text-align: left/**or**/;
 
 }
 .cal1 .clndr .clndr-controls .clndr-control-button.leftalign {
-  text-align: left !important;
+  text-align: right !important;
 }
 .cal1 .clndr .clndr-controls .clndr-control-button .clndr-next-button {
   cursor: pointer;
@@ -175,7 +175,7 @@ html[xmlns] .clearfix {
 }
 .cal1 .clndr .clndr-table tr .empty:last-child,
 .cal1 .clndr .clndr-table tr .adjacent-month:last-child {
-  border-right: 0px solid #000000;
+  border-right:right: 0px solid #000000;
 }
 .cal1 .clndr .clndr-table tr:last-child .day {
   border-bottom: 0px solid #000000;
@@ -195,9 +195,9 @@ html[xmlns] .clearfix {
   margin-bottom: 3px;
 }
 .cal2 .clndr .clndr-controls .clndr-previous-button {
-  float: left;
+  float: right;
   width: 10%;
-  text-align: left;
+  text-align: right;
   cursor: pointer;
   -webkit-user-select: none;
   /* Chrome/Safari */
@@ -210,14 +210,14 @@ html[xmlns] .clearfix {
   background-color: #f4f4f4;
 }
 .cal2 .clndr .clndr-controls .month {
-  float: left;
+  float: right;
   width: 80%;
   text-align: center;
 }
 .cal2 .clndr .clndr-controls .clndr-next-button {
-  float: left;
+  float: right;
   width: 10%;
-  text-align: right;
+  text-align: left/**or**/;
   cursor: pointer;
   -webkit-user-select: none;
   /* Chrome/Safari */
@@ -235,13 +235,13 @@ html[xmlns] .clearfix {
   display: inline-block;
 }
 .cal2 .clndr .clndr-grid .header-day {
-  float: left;
+  float: right;
   width: 25px;
   height: 25px;
   background: #FF4545;
 }
 .cal2 .clndr .clndr-grid .day {
-  float: left;
+  float: right;
   width: 25px;
   height: 25px;
 }
@@ -253,7 +253,7 @@ html[xmlns] .clearfix {
 }
 .cal2 .clndr .clndr-grid .empty,
 .cal2 .clndr .clndr-grid .adjacent-month {
-  float: left;
+  float: right;
   width: 25px;
   height: 25px;
   background: #ddd;

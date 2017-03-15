@@ -17,6 +17,7 @@ class CreateCountriesTable extends Migration
             $table->increments('id');
             $table->string('ar_name')->length(100);
             $table->string('en_name')->length(100);
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

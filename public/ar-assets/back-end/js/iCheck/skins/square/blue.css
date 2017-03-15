@@ -2,7 +2,7 @@
 ----------------------------------- */
 .icheckbox_square-blue,
 .iradio_square-blue {
-    display: block;
+    display: inline-block;
     margin: 0;
     padding: 0;
     width: 22px;
@@ -10,6 +10,7 @@
     background: url(blue.png) no-repeat;
     border: none;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 .icheckbox_square-blue {

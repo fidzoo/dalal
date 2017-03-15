@@ -1,4 +1,4 @@
-@extends('layouts.ar-admin-dash')
+@extends('ar.layouts.ar-admin-dash')
 
 @section('content')
 <link href='{!! asset("ar-assets/back-end/css/jquery.stepy.css") !!}' rel="stylesheet">

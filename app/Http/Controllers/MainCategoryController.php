@@ -12,18 +12,41 @@ class MainCategoryController extends Controller
 {
     /*
     * Cutomuzid functions in this controller 
-    * - ajaxMcategory()
+    * - ajaxMcategory() : 
+    * - mainList() : To list Admin Main Categories
     */
 
+    public function __construct()
+        {
+            $this->middleware('auth', ['except' => [
+                'index', 'show',
+            ]]);
+        }
+    
     public function ajaxMcategory(Request $request)
     {
         $section_id= $request->input('section_id');
 
-        $mcategories= MainCategory::where('section_id', $section_id)->get();
+        $mcategories= MainCategory::where('section_id', $section_id)->where('active', 1)->get();
 
     return $mcategories;
     }
 
+    /*
+    * 
+    */
+    public function mainList()
+    {
+        if(Session::get('group') == 'admin'){
+            $main_cats= MainCategory::all();
+
+            if(Session::get('lang') == 'en'){
+                return view('en.main-category.main-category-list', compact('main_cats'));
+            }
+                return view('ar.main-category.main-category-list', compact('main_cats'));
+        }
+    }
+    
 
     /**
      * Display a listing of the resource.
@@ -46,7 +69,10 @@ class MainCategoryController extends Controller
             //get Sections for dropdown list
             $sections= Section::pluck('ar_title', 'id');
 
-            return view('main-category.main-category-create', compact('sections'));
+            if(Session::get('lang') == 'en'){
+                return view('en.main-category.main-category-create', compact('sections'));
+            }
+                return view('ar.main-category.main-category-create', compact('sections'));
         }
         else return Redirect('/');
     }
@@ -75,7 +101,10 @@ class MainCategoryController extends Controller
             }
             $main_cat->save();
 
-            return Redirect::back()->with('message', 'تم إنشاء السيكشن بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('main-category-list')->with('message', 'Main Category Created Successfully!');
+            }
+                return Redirect::to('main-category-list')->with('message', 'تم إنشاء القسم الرئيسي بنجاح!');
         }
         else return Redirect('/');
     }
@@ -103,7 +132,10 @@ class MainCategoryController extends Controller
             $main_category= MainCategory::find($id);
             $sections= Section::pluck('ar_title', 'id');
 
-            return view('main-category.main-category-edit', compact('main_category', 'sections'));
+            if(Session::get('lang') == 'en'){
+                return view('en.main-category.main-category-edit', compact('main_category', 'sections'));
+            }
+                return view('ar.main-category.main-category-edit', compact('main_category', 'sections'));
         }
         else return Redirect('/');
     }
@@ -134,7 +166,10 @@ class MainCategoryController extends Controller
             }
             $main_cat->save();
 
-            return Redirect::back()->with('message', 'تم تحديث القسم الرئيسي بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::to('main-category-list')->with('message', 'Main Category Updated Successfully!');
+            }
+                return Redirect::to('main-category-list')->with('message', 'تم تحديث القسم الرئيسي بنجاح!');
             }
         else return Redirect('/');
     }
@@ -149,10 +184,15 @@ class MainCategoryController extends Controller
     {
         if(Session::get('group') == 'admin'){
             $main_cat= MainCategory::find($id);
-            File::delete($main_cat->image);
+            if ($main_cat->image != null) {
+                File::delete($main_cat->image);
+            }
             $main_cat->delete();
 
-            return Redirect::back()->with('message', 'تم حذف السيكشن بنجاح!');
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Main Category Deleted Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم حذف القسم الرئيسي بنجاح!');
         }
         else return Redirect('/');
     }

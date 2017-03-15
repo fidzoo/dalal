@@ -19,6 +19,8 @@ class CreateSubCategoriesTable extends Migration
             $table->string('ar_title');
             $table->string('en_title');
             $table->string('image')->nullable();
+            $table->string('ar_banner')->nullable();
+            $table->string('en_banner')->nullable();
             $table->timestamps();
         });
     }

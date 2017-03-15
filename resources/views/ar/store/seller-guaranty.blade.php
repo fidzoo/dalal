@@ -1,0 +1,1 @@
+{{$store->guaranty_text}}
