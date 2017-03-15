@@ -2205,6 +2205,17 @@ div#navbar2 .nav li a{color: black !important;}
   left: 0;
   background: #fff;
 }
+
+
+
+.header-top-right .homeslider .bx-wrapper .bx-viewport ul,
+.header-top-right .homeslider .bx-wrapper .bx-viewport,
+.header-top-right .homeslider .bx-wrapper .bx-viewport ul > li,
+.header-top-right .homeslider .bx-wrapper .bx-viewport ul > li:last-child {
+  direction: ltr !important
+}
+
+
 .header-top-right .homeslider .bx-controls-direction .bx-prev,
 .header-top-right .homeslider .bx-controls-direction .bx-next{
 	background: #ffffff;
