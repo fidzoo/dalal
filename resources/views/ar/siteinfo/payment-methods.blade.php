@@ -1,4 +1,5 @@
 @extends('ar.layouts.ar-main-layout') 
+<title>دلال مول | طرق الدفع</title>
 
 @section('content')
 <div class="page-top">
@@ -11,18 +12,14 @@
             	<div class="breadcrumb clearfix">
                         <a>أنت تتصفح : </a>
                         <span class="navigation-pipe">&nbsp;</span>
-                         <a class="home" href="#" title="الرئيسية">دلال مول</a>
+                         <a class="home" href='{!! URL::to("/") !!}' title="الرئيسية">دلال مول</a>
                         <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">أحذية وملابس وإكسسوارتها</a>
-                        <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">ملابس رجالية </a>
-                        <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">جواكيت رجالي</a>
+                        <a href='{!! URL::to("payment-methods") !!}' title="عن دلال">طرق الدفع</a>
             
                     </div>
                 <!-- category-slider -->
               <div class="category-slider">
-                <img src='{!! asset("$payment_methods->image") !!}' alt="category-slider" class="img-responsive">
+                <img src='{!! asset("$payment_methods->image") !!}' alt="طرق الدفع" class="img-responsive">
               </div>
                 <!-- ./category-slider -->
             </div>
@@ -32,7 +29,7 @@
                 <div class="content-text clearfix">
                     <!-- page heading-->
                     <h2 class="page-heading2">
-                        <span class="page-heading-title2">{{ $payment_methods->item }}</span>
+                        <span class="page-heading-title2">طرق الدفع</span>
                     </h2>
                     <p>{{ $payment_methods->ar_content }}</p>
                 </div>

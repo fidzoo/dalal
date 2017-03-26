@@ -16,7 +16,14 @@ function notifications()
 {
 	//get notication group
 	$belongs= Session::get('group');
-	$notifications= App\Notification::where('belongs_to', $belongs)->where('read', 0)->get();
+    
+    if($belongs == 'admin'){
+        $notifications= App\Notification::where('belongs_to', $belongs)->where('read', 0)->orderBy('id','desc')->get();
+    }
+    elseif($belongs == 'merchant' || $belongs == 'buyer'){
+        $notifications= App\Notification::where('belongs_to', $belongs)->where('receiver_id', Session::get('user_id'))->where('read', 0)->orderBy('id','desc')->get();   
+    }
+	
 	$count= count($notifications);
 	
 	return ['notifications'=>$notifications, 'count'=>$count];
@@ -59,6 +66,7 @@ function rating_precent($ratings, $count)
 
     return $percentage;
 }
+
 
 //Function to count the single star products
 function starProducts($stars)

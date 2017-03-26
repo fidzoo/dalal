@@ -52,7 +52,7 @@
                                 <div class="tab-panel active row" id="tab-6">
                                     <div class="col-md-4 col-xs-12 box-left equal">
                                         <div class="banner-img">
-                                            <a href='{!! URL::to("most-sell") !!}'>
+                                            <a href='{!! URL::to("high-sales") !!}'>
                                             	 <p class="header-p">المنتجات الأكثر مبيعًا</p>
                                             	<img src='{!! asset("$sell_label->ar_image_path") !!}' alt="المنتجات الأكثر مبيعًا">
                                                 <p class="fotter-p">الإطلاع على الكل</p>
@@ -130,7 +130,7 @@
                                 <div class="tab-panel active row" id="tab-6">                                    
                                 	<div class="col-md-4 col-xs-12 box-right equal pull-right">
                                         <div class="banner-img">
-                                            <a href='{!! URL::to("recent-added") !!}'>
+                                            <a href='{!! URL::to("recent-products") !!}'>
                                                  <p class="header-p">المنتجات المضافة حديثًا</p>
                                                 <img src='{!! asset("$recent_label->ar_image_path") !!}' alt="المنتجات المضافة حديثًا">
                                                 <p class="fotter-p">الإطلاع على الكل</p>
@@ -210,7 +210,7 @@
                                 <div class="tab-panel active row" id="tab-6">
                                     <div class="col-md-4 col-xs-12 equal box-left ">
                                         <div class="banner-img">
-                                            <a href='{!! URL::to("most-rated") !!}'>
+                                            <a href='{!! URL::to("high-rating") !!}'>
                                             	 <p class="header-p">المنتجات الأعلى تقييمًا</p>
                                             	<img src='{!! asset("$recent_label->ar_image_path") !!}' alt="المنتجات الأعلى تقييمًا">
                                                 <p class="fotter-p">الإطلاع على الكل</p>
@@ -379,6 +379,7 @@
 
                                     <div class="col-md-8 col-xs-12 equal box-right">
                                         <ul class="product-list row">
+                                            <?php $s=1; ?>
                                             @foreach($todays_deal as $product)
                                             <li class="col-sm-4">
                                                 <div class="bordered">
@@ -397,11 +398,24 @@
                                                             <a href='{{ URL::to( "product/$product->id/$url") }}'>{!!$product->ar_title!!}</a>
                                                         </h5>
                                                         <div class="product-star">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
+                                                            <div id="rateYoChosen{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                                         </div>
+
+                                                        <!--Star rating script-->
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                 
+                                                              $("#rateYoChosen"+'<?php echo $s ?>').rateYo({
+                                                                starWidth: "15px",
+                                                                rating: '<?php echo rating($product->rating, count($product->rating)) ?>',
+                                                                rtl: true,
+                                                                readOnly: true,
+                                                              });
+                                                             
+                                                            });
+                                                        </script>
+                                                        <!--end of Star rating script-->
+
                                                         <div class="content_price">
                                                             @if($product->price_offer == 1)
                                                             <span class="price old-price">{{$product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
@@ -413,6 +427,7 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <?php $s++ ?>
                                             @endforeach
   
                                         </ul>
@@ -444,6 +459,7 @@
 
                                     <div class="col-md-8 col-xs-12 equal box-left">
                                         <ul class="product-list row">
+                                            <?php $s= 1; ?>
                                             @foreach($todays_deal as $product)
                                             <li class="col-sm-4">
                                                 <div class="bordered">
@@ -462,11 +478,24 @@
                                                             <a href='{{ URL::to( "product/$product->id/$url") }}'>{!!$product->ar_title!!}</a>
                                                         </h5>
                                                         <div class="product-star">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
+                                                            <div id="rateYoOffers{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                                         </div>
+
+                                                        <!--Star rating script-->
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                 
+                                                              $("#rateYoOffers"+'<?php echo $s ?>').rateYo({
+                                                                starWidth: "15px",
+                                                                rating: '<?php echo rating($product->rating, count($product->rating)) ?>',
+                                                                rtl: true,
+                                                                readOnly: true,
+                                                              });
+                                                             
+                                                            });
+                                                        </script>
+                                                        <!--end of Star rating script-->
+
                                                         <div class="content_price">
                                                             @if($product->price_offer == 1)
                                                             <span class="price old-price">{{$product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
@@ -478,6 +507,7 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <?php $s++ ?>
                                             @endforeach
   
                                         </ul>

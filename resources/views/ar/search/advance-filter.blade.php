@@ -472,9 +472,8 @@
                 <input type="hidden" id="selected-sizes" name="selected-sizes" value="{{$sizes_input}}">
                 <input type="hidden" id="selected-rating" name="selected-rating" value="{{$rating_input}}">
                 
-                <div class="button apply">
-                    <button type="submit">تطبيق الفلتر</button> 
-                </div>
+                <button class="button apply" type="submit">تطبيق الفلتر</button>
+                
                 <!-- ./block filter  -->
                 {!! Form::close() !!}
                 <!-- left silide --><br>

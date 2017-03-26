@@ -25,11 +25,11 @@
                             </div>
                             <div id="navbar" class="navbar-collapse ">
                                 <ul class="nav navbar-nav">
-                                    <li class="active"><a href="#"> صفحة المتجر</a></li>
+                                    <li class="active"><a href='{!! URL::to("store/$store->id") !!}'> صفحة المتجر</a></li>
                                 	<li><a href="#"> أفضل العروض</a></li>
-                                	<li><a href="#"> الأكثر مبيعاً</a></li>
-                                	<li><a href="#"> أتى حديثاً</a></li>
-                                	<li><a href="#"> التقييم</a></li>
+                                	<li><a href='{!! URL::to("store-tab/$store->id/high-sale") !!}'> الأكثر مبيعاً</a></li>
+                                	<li><a href='{!! URL::to("store-tab/$store->id/recent-add") !!}'> أتى حديثاً</a></li>
+                                	<li><a href='{!! URL::to("store/$store->id/ratings") !!}'> التقييم</a></li>
                                     <li><a href="#"> تواصل مع المتجر</a></li>
 
                                 </ul>
@@ -44,7 +44,7 @@
             <div class="column col-md-3 col-xs-12 col-sm-12 pull-right" id="left_column">
                 <!-- block filter -->
                 <div class="block left-module top30">
-                    <p class="title_block"> <img src="assets/data/cloth.png" title="" align=""> أقسام المتجر</p>
+                    <p class="title_block"> <img src='{!! asset("ar-assets/front-end/images/5.png") !!}' title="" align=""> أقسام المتجر</p>
                     <div class="block_content">
                         <!-- layered -->
                         <div class="layered layered-category">
@@ -67,7 +67,7 @@
                                       @foreach ($all_main_cat->subCategories as $sub_cat)
                                         
                                             @if (in_array($sub_cat->id, $select_sub_cats))
-                                            <li><span></span><a href='{!! URL::to("section-products/$sub_cat->id") !!}'>{{$sub_cat->ar_title}}</a></li>
+                                            <li><span></span><a href='{!! URL::to("store-categories/$store->id/$sub_cat->id") !!}'>{{$sub_cat->ar_title}}</a></li>
                                             @endif
                                         
                                       @endforeach
@@ -101,16 +101,27 @@
                                             	<a href="#" class="pull-right">التقييم :</a>
                                                 <div class="product-comments">
                                                     <div class="product-star pull-right">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-half-o"></i>
-                                                        &nbsp; 
+                                                        <div id="rateYoStore" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp; 
                                                        
                                                     </div>
+
+                                                    <!--Star rating script-->
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                 
+                                                              $("#rateYoStore").rateYo({
+                                                                starWidth: "15px",
+                                                                rating: '<?php echo rating($store->rating, count($store->rating)) ?>',
+                                                                rtl: true,
+                                                                readOnly: true,
+                                                              });
+                                                             
+                                                            });
+                                                        </script>
+                                                    <!--end of Star rating script-->
+
                                                     <div class="comments-advices pull-right">
-                                                        <a> <span>5.4 %</span></a>
+                                                        <a> <span>{!! rating_precent($store->rating, count($store->rating)) !!} %</span></a>
                                                     </div>
                                                     
                                                 </div>
@@ -135,31 +146,57 @@
                     <p class="title_block"> المنتجات الأكثر مبيعا </p>
                     <div class="block_content">
                         <ul class="products-block best-sell">
-                            @foreach($most_sale as $most_product) 
+                            <?php $s= 1 ?>
+                                @foreach($most_sale as $most_product)
                                 <li class="col-sm-12">
-                                        <div class="bordered">
-                                            <div class="left-block">
-                                                <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/data/p55.jpg"></a>
+                                    <div class="bordered">
+                                        <div class="left-block">
+                                            <?php $url=str_replace(" ", "-", $most_product->ar_title); ?>
+
+                                        <a href='{{ URL::to( "product/$most_product->id/$url") }}'>
+                                        @if(!$most_product->productImages->isEmpty())
+                                            <?php $img= $most_product->productImages[0]->image_path; ?>
+                                            <img class="img-responsive" alt="{{$most_product->ar_title}}" src='{!! asset("$img") !!}'></a>
+                                        @else
+                                            <img class="img-responsive" alt="default-img" src='{!! asset("ar-assets/front-end/images/logo.png") !!}'></a>
+                                        @endif
+                                        </div>
+                                        <div class="right-block">
+                                            <h5 class="product-name">
+                                                <a href='{{ URL::to( "product/$most_product->id/$url") }}'>{!!$most_product->ar_title!!}</a>
+                                            </h5>
+                                            <div class="product-star">
+                                                <div id="rateYoMost{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                             </div>
-                                            <div class="right-block">
-                                                <h5 class="product-name">
-                                                    <a href="#">انفنيكس زيرو 3 X552 بشريحتي اتصال - 16 جيجا, الجيل الرابع ال تي اي, ذهبي</a>
-                                                </h5>
-                                                <div class="product-star">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-half-o"></i>
-                                                </div>
-                                                <div class="content_price">
-                                                    <span class="price 50.10 رس">91.45 رس</span>
-                                                    <span class="price product-price">77.10 رس</span>
-                                                </div>
+
+                                            <!--Star rating script-->
+                                            <script type="text/javascript">
+                                                $(function () {
+                     
+                                                  $("#rateYoMost"+'<?php echo $s ?>').rateYo({
+                                                    starWidth: "15px",
+                                                    rating: '<?php echo rating($most_product->rating, count($most_product->rating)) ?>',
+                                                    rtl: true,
+                                                    readOnly: true,
+                                                  });
+                                                 
+                                                });
+                                            </script>
+                                            <!--end of Star rating script-->
+
+                                            <div class="content_price">
+                                            @if($most_product->price_offer == 1)
+                                            <span class="price old-price">{{$most_product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                            <span class="price product-price">{{$most_product->offer_price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                            @else
+                                            <span class="price product-price">{{$most_product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                            @endif
                                             </div>
                                         </div>
-                                    </li>
-                            @endforeach
+                                    </div>
+                                </li>
+                                <?php $s++ ?>
+                                @endforeach
                             </ul>
                     </div>
                 </div>
@@ -172,35 +209,66 @@
                 <!-- view-product-list-->
                 <div id="view-product-list" class="view-product-list">
                     <h2 class="page-heading bg-white">
-                    	كل البضائع
+                        كل البضائع
                     </h2>
-                        
+                    @if($products->count() < 1)
+                <div id="view-product-list" class="view-product-list">
+                    <h2 class="page-heading bg-white" style="text-align: center">
+                        عذرًا لا توجد بضائع في هذا القسم حتى الأن
+                    </h2>
+                    </div>
+                      @endif  
                     <!-- PRODUCT LIST -->
                     <ul class="row product-list grid">
-                        @foreach ($products as $product)
-                        <li class="col-sx-12 col-sm-4">
+                        <?php $s=1; ?>
+                        @foreach($products as $product)
+                        <li class="col-sm-4">
                             <div class="bordered">
                                 <div class="left-block">
-                                    <a href="#">
-                                    <img class="img-responsive" alt="product" src="assets/data/p55.jpg"></a>
+                                <?php $url=str_replace(" ", "-", $product->ar_title); ?>
+                                    <a href='{{ URL::to( "product/$product->id/$url") }}'>
+                                    @if(!$product->productImages->isEmpty())
+                                    <?php $img= $product->productImages[0]->image_path; ?>
+                                    <img class="img-responsive" alt="{{$product->ar_title}}" src='{!! asset("$img") !!}'></a>
+                                    @else
+                                    <img class="img-responsive" alt="default-img" src='{!! asset("ar-assets/front-end/images/logo.png") !!}'></a>
+                                    @endif
                                 </div>
                                 <div class="right-block">
                                     <h5 class="product-name">
-                                        <a href="#">انفنيكس زيرو 3 X552 بشريحتي اتصال - 16 جيجا, الجيل الرابع ال تي اي, ذهبي</a>
+                                        <a href='{{ URL::to( "product/$product->id/$url") }}'>{!!$product->ar_title!!}</a>
                                     </h5>
                                     <div class="product-star">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
+                                        <div id="rateYoSold{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                     </div>
+
+                                    <!--Star rating script-->
+                                    <script type="text/javascript">
+                                        $(function () {
+             
+                                          $("#rateYoSold"+'<?php echo $s ?>').rateYo({
+                                            starWidth: "15px",
+                                            rating: '<?php echo rating($product->rating, count($product->rating)) ?>',
+                                            rtl: true,
+                                            readOnly: true,
+                                          });
+                                         
+                                        });
+                                    </script>
+                                    <!--end of Star rating script-->
+
                                     <div class="content_price">
-                                        <span class="price old-price">91.45 رس</span>
-                                        <span class="price product-price">77.10 رس</span>
+                                        @if($product->price_offer == 1)
+                                        <span class="price old-price">{{$product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                        <span class="price product-price">{{$product->offer_price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                        @else
+                                        <span class="price product-price">{{$product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </li>
+                        <?php $s++; ?>
                         @endforeach
 
 
@@ -211,13 +279,8 @@
                 
 
                 <div class="sortPagiBar">
-                    <div class="bottom-pagination">
-                        <nav>
-                          <ul class="pagination">
-                           {!!$products->links()!!}
-                          </ul>
-                        </nav>
-                    </div>
+                    {!!$products->links()!!}
+                </div>
                     
                     
                 </div>

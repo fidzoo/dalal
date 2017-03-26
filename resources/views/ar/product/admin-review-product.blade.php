@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href='{!! URL::to("ar-assets/back-end/js/bootstrap-daterangepicker/daterangepicker-bs3.css") !!}' />
   <link rel="stylesheet" type="text/css" href='{!! URL::to("ar-assets/back-end/js/bootstrap-datetimepicker/css/datetimepicker-custom.css") !!}' />
 
+<!--IOS Switchery check-->
+  <link rel="stylesheet" type="text/css" href='{!! URL::to("ar-assets/back-end/js/ios-switch/switchery.css") !!}' />
 
 <h3> معلومات عن صاحب المنتج: </h3>
 <?php $store_id= $product->store->id; ?>
@@ -17,71 +19,51 @@
 <h3> تفاصيل المنتج </h3>
 <br>
 
-{!! Form::open(["url"=>"product/$product->id", "method"=>"patch", "files"=> true, "class"=>"form-group", "id"=>"myList"]) !!}
 
-{!! Form::hidden('request_type', 'admin_approve') !!}
 
 {!! Form::label('اسم المنتج بالعربية') !!}
 
-{!! Form::text('ar_title', $product->ar_title, ['class'=>'form-control', 'required']) !!}<br>
+{!! Form::text('ar_title', $product->ar_title, ['class'=>'form-control', 'required', 'disabled']) !!}<br>
 
 {!! Form::label('اسم المنتج بالإنجليزية') !!}
 
-{!! Form::text('en_title', $product->en_title, ['class'=>'form-control', 'required']) !!}<br>
+{!! Form::text('en_title', $product->en_title, ['class'=>'form-control', 'required' , 'disabled']) !!}<br>
 
 {!! Form::label('السيكشن') !!}<br>
-{!! Form::select('section', $sections, $selected_sub->mainCategories[0]->section->id, ['id'=>'section', 'class'=>'form-control']) !!}
+{!! Form::select('section', $sections, $selected_sub->mainCategories[0]->section->id, ['id'=>'section', 'class'=>'form-control', 'disabled']) !!}
 
 <br>
 
 {!! Form::label('التصنيف الرئيسي') !!}<br>
 
-{!! Form::select('mcategory', $main_categories, $selected_sub->mainCategories[0]->id, ['id'=>'mcategory', 'class'=>'form-control']) !!}<br>
+{!! Form::select('mcategory', $main_categories, $selected_sub->mainCategories[0]->id, ['id'=>'mcategory', 'class'=>'form-control', 'disabled']) !!}<br>
 
 
 {!! Form::label('التصنيف الفرعي') !!}<br>
 
-{!! Form::select('subcategory', $sub_categories, $product->sub_category_id, ['id'=>'subcategory', 'class'=>'form-control']) !!}<br>
+{!! Form::select('subcategory', $sub_categories, $product->sub_category_id, ['id'=>'subcategory', 'class'=>'form-control', 'disabled']) !!}<br>
 
 
 {!! Form::label('وصف قصير للمنتج بالعربية') !!}
 
-{!! Form::text('ar_short_descrip', $product->ar_short_descrip, ['class'=>'form-control']) !!}<br>
+{!! Form::text('ar_short_descrip', $product->ar_short_descrip, ['class'=>'form-control', 'disabled']) !!}<br>
 
 
 {!! Form::label('وصف قصير للمنتج بالإنجليزية') !!}
-{!! Form::text('en_short_descrip', $product->en_short_descrip, ['class'=>'form-control']) !!}<br>
+{!! Form::text('en_short_descrip', $product->en_short_descrip, ['class'=>'form-control', 'disabled']) !!}<br>
 
 
 {!! Form::label('وصف طويل للمنتج بالعربية') !!}
 
-{!! Form::textarea('ar_long_descrip', $product->ar_long_descrip, ['class'=>'form-control']) !!}<br>
+{!! Form::textarea('ar_long_descrip', $product->ar_long_descrip, ['class'=>'form-control', 'disabled']) !!}<br>
 
 {!! Form::label('وصف طويل للمنتج بالإنجليزية') !!}
 
-{!! Form::textarea('en_long_descrip', $product->en_long_descrip, ['class'=>'form-control']) !!}<br>
+{!! Form::textarea('en_long_descrip', $product->en_long_descrip, ['class'=>'form-control', 'disabled']) !!}<br>
 
-
-{!! Form::label('الأحجام المتوفرة لهذا المنتج') !!}<br>
-<div id='sizes'>
-	<?php $i= 1; ?>
-	@foreach($all_sizes as $all_size)
-	<!--Check the selected saved sizes-->
-		@if(in_array($all_size->ar_size, $selected_sizes))
-		<input name="ar_size{{$i}}" type="checkbox" value="{{$all_size->ar_size}}" checked=""> &nbsp; {{$all_size->ar_size}} &nbsp; &nbsp; <input type="hidden" name="en_size{{$i}}" value="{{$all_size->en_size}}">
-		@else
-		<input name="ar_size{{$i}}" type="checkbox" value="{{$all_size->ar_size}}"> &nbsp; {{$all_size->ar_size}} &nbsp; &nbsp; <input type="hidden" name="en_size{{$i}}" value="{{$all_size->en_size}}">
-		@endif
-	<?php $i++; ?>
-	@endforeach
-	<input type="hidden" name="sizes_count" value="{{$i-1}}">
-</div>
-<div id='sizes_count'></div>
-<br>
 
 
 <h3>مواصفات المنتج</h3>
-{!! Form::label('يمكنك عدم كتابة قيمة المواصفة ولن يتم عرضها ضمن مواصفات المنتج') !!}
 <div id='specs'>
 	<?php $s= 1; ?>
 	@foreach($all_specs as $all_spec)
@@ -90,22 +72,22 @@
 				@if($used->ar_title == $all_spec->ar_title || $used->en_title == $all_spec->en_title)
 					<input type="hidden" name="ar_title{{$s}}" value="{{ $all_spec->ar_title }}" >
 					<label>{{ $all_spec->ar_title }}:</label>
-					<input name="ar_detail{{$s}}" type="text" value="{{$used->ar_detail}}"> <br>
+					<input name="ar_detail{{$s}}" type="text" value="{{$used->ar_detail}}" disabled> <br>
 
 					<input type="hidden" name="en_title{{$s}}" value="{{ $all_spec->en_title }}" >
 					<label>{{ $all_spec->en_title }}:</label> 
-					<input name="en_detail{{$s}}" type="text" value="{{$used->en_detail}}"> <br>
+					<input name="en_detail{{$s}}" type="text" value="{{$used->en_detail}}" disabled> <br>
 					<?php $print= 1; ?> 
 				@endif	
 			@endforeach
 		@if($print != 1)
 			<input type="hidden" name="ar_title{{$s}}" value="{{ $all_spec->ar_title }}" >
 			<label>{{ $all_spec->ar_title }}:</label>
-			<input name="ar_detail{{$s}}" type="text"> <br>
+			<input name="ar_detail{{$s}}" type="text" disabled> <br>
 
 			<input type="hidden" name="en_title{{$s}}" value="{{ $all_spec->en_title }}" >
 			<label>{{ $all_spec->en_title }}:</label> 
-			<input name="en_detail{{$s}}" type="text"> <br>
+			<input name="en_detail{{$s}}" type="text" disabled> <br>
 		@endif
 	<?php $s++; ?>
 	@endforeach
@@ -117,7 +99,7 @@
 
 
 {!! Form::label('ألوان المنتج') !!}<br>
-<select id="color_option" class="form-control" name="color_option">
+<select id="color_option" class="form-control" name="color_option" disabled>
 	<option disabled selected>-- اختيار نوع الألوان --</option>
 	@if ($product->colors_type == 'colors')
 	<option value="colors" selected="">ألوان فقط</option>
@@ -155,7 +137,7 @@
 	@else
 <!--If Color Images-->
 	
-		<a class="btn btn-default" id="more_color_imgs">رفع المزيد من الصور</a><br>
+{{--		<a class="btn btn-default" id="more_color_imgs">رفع المزيد من الصور</a><br>--}}
 		@foreach($selected_colors as $color)
 		{!! Form::image($color->image_path, 'c_image'.$color->id, ['id'=>'c_image'.$color->id, 'width'=>50, 'height'=>50]) !!} 
 		
@@ -197,21 +179,62 @@
 <!--End of Modal-->
 <br>
 
-
+<br><br>
 {!! Form::label('الكمية المتوفرة') !!}<br>
-{!! Form::number('stock', $product->stock, ['class'=>'form-control', 'required']) !!}<br>
+{!! Form::number('stock', $product->stock, ['class'=>'form-control', 'required', 'disabled']) !!}<br>
 
 {!! Form::label('السعر') !!}<br>
-{!! Form::number('price', $product->price, ['class'=>'form-control', 'required']) !!}<br>
-{!! Form::label('العملة') !!}<br>
-{!! Form::select('currency', ['SAR'=>'ريال سعودي', 'USD'=>'دولار أمركي'], $product->currency, ['class'=>'form-control']) !!}<br>
+{!! Form::number('price', $product->price, ['step'=>'0.001', 'required', 'disabled']) !!}
+/
+{!! Form::text('price_type', $product->price_type, ['required', 'disabled']) !!}<br>
+<!-- {!! Form::label('العملة') !!}<br>
+{!! Form::select('currency', ['SAR'=>'ريال سعودي', 'USD'=>'دولار أمركي'], $product->currency, ['class'=>'form-control']) !!}<br> -->
 
 
+<h4>عروض على الكمية؟</h4>
+@if($product->qty_offer == 1)
+<input type="checkbox" id="offers" name="offers" class="js-switch" checked disabled/> <br>
+<div id="offers_div">
+<?php $count=1; ?>
+	@foreach($qty_offers as $offer)
+	<div id="offer_div{{$offer->id}}">
+		عند شرائك <input type="number" name="offer_qty{{$count}}" value="{{$offer->qty}}" disabled/> فأكثر يكون السعر <input type="number" name="offer_price{{$count}}" step="0.001" value="{{$offer->new_price}}" disabled/> للواحدة 	&nbsp;&nbsp; <a href="#delete_offer" id="offer_delete{{$offer->id}}" class="delete-modal" data-id="{{$offer->id}}" data-name="qty_offer">حذف العرض</a> <br>
+		<?php $count++; ?>
+	</div>
+	@endforeach
+	<input type="hidden" name="offers_count" id="offers_count" value="{{$count-1}}"><br>
 
-<h3>صور المنتج الدعائية</h3>
+{{--	<a href="#offer" id="new_offer">إضافة عرض أخر</a> <br>--}}
+</div>
+
+@else
+<input type="checkbox" id="offers" name="offers" class="js-switch"/>
+<div id="offers_div">
+<input type="hidden" name="offers_count" id="offers_count" value="1">
+
+</div>
+@endif
+
+<hr>
+<h3>تفاصيل الحمولة:</h3>
+{!! Form::label('نوع الوحدة بالعربية') !!}<br>
+{!! Form::text('ar_unit_type', $product->ar_unit_type, ['class'=>'form-control', 'maxlength'=>'20', 'disabled']) !!}<br>
+{!! Form::label('نوع الوحدة بالإنجليزية') !!}<br>
+{!! Form::text('en_unit_type', $product->en_unit_type, ['class'=>'form-control', 'maxlength'=>'20', 'disabled']) !!}<br>
+{!! Form::label('وزن الحمولة بالعربية') !!}<br>
+{!! Form::text('ar_package_weight', $product->ar_package_weight, ['class'=>'form-control', 'disabled']) !!}<br>
+{!! Form::label('وزن الحمولة بلإنجليزية') !!}<br>
+{!! Form::text('en_package_weight', $product->en_package_weight, ['class'=>'form-control', 'disabled']) !!}<br>
+{!! Form::label('مقاسات الحمولة بالعربية') !!}<br>
+{!! Form::text('ar_package_size', $product->ar_package_size, ['class'=>'form-control', 'disabled']) !!}<br>
+{!! Form::label('مقاسات الحمولة بلإنجليزية') !!}<br>
+{!! Form::text('en_package_size', $product->en_package_size, ['class'=>'form-control', 'disabled']) !!}<br>
+<hr>
+
+<h3>صور المنتج</h3>
 <input type="hidden" id="images_count" name="images_count" value="">
 <div id="product_images"></div><br>
-<a class="btn btn-default" id="upload_image">إضافة صورة أخرى</a> <br><br>
+{{--<a class="btn btn-default" id="upload_image">إضافة صورة أخرى</a> <br><br>--}}
 	@foreach($product_images as $img)
 		{!! Form::image($img->image_path, 'img'.$img->id, ['id'=>'img'.$img->id, 'width'=>100, 'height'=>100]) !!} 
 		
@@ -220,13 +243,56 @@
 	@endforeach
 
 
+<h3>صور المنتج الدعائية</h3>
+<input type="hidden" id="comm_images_count" name="comm_images_count" value="">
+<div id="comm_images"></div><br>
+{{--<a class="btn btn-default" id="comm_upload_image">إضافة صورة أخرى</a> <br><br>--}}
+	@foreach($comm_images as $com_img)
+		{!! Form::image($com_img->image_path, 'com_img'.$com_img->id, ['id'=>'com_img'.$com_img->id, 'width'=>100, 'height'=>100]) !!} 
+		
+		<a href="#comm-image" id="com_i_delete{{$com_img->id}}" class="delete-modal" data-id="{{$com_img->id}}" data-name="comm-image" style="color: black;">&#10006;</a><br>
+	
+	@endforeach
+
+
 <br><br>
 
+
+{!! Form::label('رابط فيديو للمنتج : برجاء استخدام الآي فريم') !!}
+{!! Form::text('video', $product->video, ['class'=>'form-control', 'disabled']) !!}<br>
+
+
+<br><br>
+
+<!-- Form Start here -->
+{!! Form::open(["url"=>"product/$product->id", "method"=>"patch", "files"=> true, "class"=>"form-group", "id"=>"myList"]) !!}
+
+{!! Form::hidden('request_type', 'admin_approve') !!}
+
 <button type="submit" name="review" value="accept" class="btn btn-success">موافقة على المنتج</button>
-<button type="submit" name="review" value="reject" class="btn btn-danger">رفض المنتج</button>
+
 
 {!! Form::close() !!}
 
+<button type="submit" name="review" id="reject" value="reject" class="btn btn-danger">رفض المنتج</button>
+<br>
+<div id="reject-div" style="display: none;">
+<label>برجاء توضيح أسباب رفض المنتج:</label><br>
+<textarea name="reject-reasons" class="form-group" rows="15" cols="140" form="myList"></textarea>
+<br>
+<button id="rej-submit">تأكيد</button>
+</div>
+
+<!--Display reject reasons box-->
+<script type="text/javascript">
+	$('#reject').click(function(){
+		$('#reject-div').attr('style', 'display: block;');
+	});
+
+	$('#rej-submit').click(function(){
+		$('#myList').submit();
+	});
+</script>
 
 
 <!--script for the ajax Main & Sub Categories menu-->
@@ -432,10 +498,51 @@
 		            }
 		        });
 	 		}
+	    else if(link == '#delete_offer'){
+	 			$.ajax({
+		            type: 'post',
+		            url: '/deleteQtyOffer',
+		            data: {
+		                '_token': $('input[name=_token]').val(),
+		                'id': $('.did').text()
+		            },
+		            success: function(data) {
+		                $('#offer_div' + $('.did').text()).remove();
+		                var count= $('#offers_count').val();
+		                $('#offers_count').attr("value", count-1);
+		            }
+		        });
+	 		}
 	    });
 	
 	</script>
 	<!--End of script-->	
+
+	<!--Generate Price Quantity Offer boxes-->
+	<script type="text/javascript">
+		$('#offers').change(function(){
+		  var count= $('#offers_count').val();
+
+			if(this.checked){
+				$('#offers_div').show();
+			}else{
+				$('#offers_div').hide();
+				}
+		});
+
+		$('#new_offer').click(function(){
+			var count= $('#offers_count').val();
+			count++;
+				if(count < 4){
+					$('#offers_div').append('عند شرائك <input type="number" name="offer_qty'+count+'" min="0" required/> فأكثر يكون السعر <input type="number" name="offer_price'+count+'" step="0.001" min="0" required /> للواحدة  <br>');
+					$('#offers_count').attr("value", count);
+					count++;
+				}else{
+					$('#offers_div').append('<h4>لا يمكن إضافة عرض أخر</h4>');
+				}
+					
+			});
+	</script>
 
 	<!--pickers plugins-->
 	<script type="text/javascript" src='{!! asset("ar-assets/back-end/js/bootstrap-datepicker/js/bootstrap-datepicker.js") !!}'></script>
@@ -448,5 +555,7 @@
 	<!--pickers initialization-->
 	<script src='{!! asset("ar-assets/back-end/js/pickers-init.js") !!}'></script>
 
-
+	<!--ios7-->
+	<script src='{!! asset("ar-assets/back-end/js/ios-switch/switchery.js") !!}' ></script>
+	<script src='{!! asset("ar-assets/back-end/js/ios-switch/ios-init.js") !!}' ></script>
 @stop

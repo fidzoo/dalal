@@ -40,11 +40,11 @@ class SiteInfoController extends Controller
  
             
     	}elseif ($request->is('buyer-agreement')) {
-    		$buyera_greement = SiteInfo::find(3);
+    		$buyer_agreement = SiteInfo::find(3);
             if(Session::get('lang') == 'en'){
-            return view('en.siteinfo.buyer-agreement', compact('buyera_greement'));
+            return view('en.siteinfo.buyer-agreement', compact('buyer_agreement'));
             }
-            return view('ar.siteinfo.buyer-agreement', compact('buyera_greement'));
+            return view('ar.siteinfo.buyer-agreement', compact('buyer_agreement'));
  
             
     	}elseif ($request->is('selling-instruct')) {
@@ -118,35 +118,9 @@ class SiteInfoController extends Controller
     	}
 
     }
-    
-    public function update(Request $request, $id){
-    	    
-    	    $siteinfo = SiteInfo::find($id);
-            $siteinfo->item = $request->input('item');
-            $siteinfo->ar_content = $request->input('ar_content');
-            $siteinfo->en_content = $request->input('en_content');
-           
-            //this for uploud image
-            if ($request->file('image')){
-            File::delete($siteinfo->image);
-            $file= $request->file('image');
-            $destinationPath= 'en-assets\back-end\images';
-            $filename= rand().$file->getClientOriginalName();
-            $file->move($destinationPath, $filename);
-            $siteinfo->image = "en-assets\back-end\images/".$filename;
-            
-            }
-
-            $siteinfo->save();	
-            if(Session::get('lang') == 'en'){
-                return Redirect::to('')->with('message', 'Updated Successfully!');
-            }
-                return Redirect::to('')->with('message', 'تم تحديث بنجاح!');  
-        } 
-    
 
 
-
+    //Admin Update view:
         public function informationPage(Request $request){
             
             if ($request->is('siteinfo-update')) {
@@ -156,32 +130,206 @@ class SiteInfoController extends Controller
                 $sell = SiteInfo::find(4);
                 $buy = SiteInfo::find(5);
                 $payment_methods = SiteInfo::find(6);
+                
                 if(Session::get('lang') == 'en'){
                 return view('en.siteinfo.siteinfo-update', compact('about','merchant_agreement','buyer_agreement','sell','buy','payment_methods'));
                 }
                 return view('ar.siteinfo.siteinfo-update', compact('about','merchant_agreement','buyer_agreement','sell','buy','payment_methods'));
 
-            }elseif($request->is('sitepolicy-update')){
+            }
+            elseif($request->is('sitepolicy-update')){
                 $privacy_policy = SiteInfo::find(7);
                 $replacement = SiteInfo::find(8);
                 $shipping = SiteInfo::find(9);
-                if(Session::get('lang') == 'en'){
-                return view('en.siteinfo.sitepolicy-update', 
-                        compact('privacy_policy','replacement','shipping'));
-                }
-                return view('ar.siteinfo.sitepolicy-update', 
-                        compact('privacy_policy','replacement','shipping'));
-            }elseif($request->is('customer-service-update')){
                 $recruitment = SiteInfo::find(10);
                 $media = SiteInfo::find(11);
-                $suggestions = SiteInfo::find(12);
+                
                 if(Session::get('lang') == 'en'){
-                return view('en.siteinfo.customer-service-update', 
-                    compact('recruitment','media','suggestions'));
+                return view('en.siteinfo.sitepolicy-update', 
+                        compact('privacy_policy','replacement','shipping', 'recruitment','media'));
                 }
-                return view('ar.siteinfo.customer-service-update', compact('recruitment','media','suggestions'));
+                return view('ar.siteinfo.sitepolicy-update', 
+                        compact('privacy_policy','replacement','shipping', 'recruitment','media'));
+            }
+            elseif($request->is('customer-service-update')){
+                
+                $suggestions = SiteInfo::find(12);
+                
+                if(Session::get('lang') == 'en'){
+                return view('en.siteinfo.customer-service-update', compact('suggestions'));
+                }
+                return view('ar.siteinfo.customer-service-update', compact('suggestions'));
             }
         }
+
+
+    
+    //To update the Info pages 
+    public function infoUpdate(Request $request){
+    	    
+    	    $siteinfo1 = SiteInfo::find(1);
+            $siteinfo2 = SiteInfo::find(2);
+            $siteinfo3 = SiteInfo::find(3);
+            $siteinfo4 = SiteInfo::find(4);
+            $siteinfo5 = SiteInfo::find(5);
+            $siteinfo6 = SiteInfo::find(6);
+
+            for ($m=1; $m < 13; $m++) {
+                if ($request->file('image'.$m)){
+
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+                if($lang == 'ar'){
+                    File::delete(${'siteinfo'.$flag}->image);
+                }else{
+                    File::delete(${'siteinfo'.$flag}->en_image);
+                }
+                
+                $file= $request->file('image'.$m);
+                $destinationPath= 'ar-assets/front-end/images/';
+                $filename= rand().$file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['image'=>$destinationPath.$filename]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_image'=>$destinationPath.$filename]);
+                        }
+                    }
+                }
+
+
+                for ($m=1; $m < 13; $m++) {
+                
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['ar_content'=>$request->input('ar_content'.$m)]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_content'=>$request->input('en_content'.$m)]);
+                        }    
+                }
+         
+
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Updated Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم تحديث بنجاح!');  
+        } 
+    
+
+    //To update the Footer Policy pages 
+    public function policyUpdate(Request $request){
+            
+            $siteinfo7 = SiteInfo::find(7);
+            $siteinfo8 = SiteInfo::find(8);
+            $siteinfo9 = SiteInfo::find(9);
+            $siteinfo10 = SiteInfo::find(10);
+            $siteinfo11 = SiteInfo::find(11);
+
+            for ($m=1; $m < 11; $m++) {
+                if ($request->file('image'.$m)){
+
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+                if($lang == 'ar'){
+                    File::delete(${'siteinfo'.$flag}->image);
+                }else{
+                    File::delete(${'siteinfo'.$flag}->en_image);
+                }
+                
+                $file= $request->file('image'.$m);
+                $destinationPath= 'ar-assets/front-end/images/';
+                $filename= rand().$file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['image'=>$destinationPath.$filename]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_image'=>$destinationPath.$filename]);
+                        }
+                    }
+                }
+
+
+                for ($m=1; $m < 11; $m++) {
+                
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['ar_content'=>$request->input('ar_content'.$m)]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_content'=>$request->input('en_content'.$m)]);
+                        }    
+                }
+         
+
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Updated Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم تحديث بنجاح!');  
+        } 
+
+
+        //To update the Footer Customer Service pages 
+    public function suctomerServiceUpdate(Request $request){
+            
+            $siteinfo12 = SiteInfo::find(12);
+            
+
+            for ($m=1; $m < 3; $m++) {
+                if ($request->file('image'.$m)){
+
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+                if($lang == 'ar'){
+                    File::delete(${'siteinfo'.$flag}->image);
+                }else{
+                    File::delete(${'siteinfo'.$flag}->en_image);
+                }
+                
+                $file= $request->file('image'.$m);
+                $destinationPath= 'ar-assets/front-end/images/';
+                $filename= rand().$file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['image'=>$destinationPath.$filename]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_image'=>$destinationPath.$filename]);
+                        }
+                    }
+                }
+
+
+                for ($m=1; $m < 3; $m++) {
+                
+                $flag= $request->input('flag'.$m);
+                $lang= $request->input('lang'.$m);
+                
+
+                if($lang == 'ar'){
+                    ${'siteinfo'.$flag}->update(['ar_content'=>$request->input('ar_content'.$m)]);
+                }else{
+                    ${'siteinfo'.$flag}->update(['en_content'=>$request->input('en_content'.$m)]);
+                        }    
+                }
+         
+
+            if(Session::get('lang') == 'en'){
+                return Redirect::back()->with('message', 'Updated Successfully!');
+            }
+                return Redirect::back()->with('message', 'تم تحديث بنجاح!');  
+        } 
+
+        
 
 
 

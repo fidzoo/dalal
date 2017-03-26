@@ -16,17 +16,19 @@ class StoreController extends Controller
     /*Customized functions inside controller:
     * - merchStoreList($usage): To display list of Merchent's stores.
     * - myStores(): display stores list for merchant to Update/Delete
-    * - secionProducts(): Display Store products inside this Sub Category
     * - returnPolicy(): Display Return Policy 
     * - sellerGuaranty() Display Seller Guaranty
     * - city(): Ajax get city
+    * - tab(): For Store tab navigation
+    * - categoryProducts(): display products belong to this Sub Category
+    * - ratingShow(): Display store ratings 
     */
 
 
     public function __construct()
         {
             $this->middleware('auth', ['except' => [
-                'secionProducts', 'index', 'show', 'secionProducts', 'returnPolicy', 'sellerGuaranty', 'city'
+                'secionProducts', 'index', 'show', 'returnPolicy', 'sellerGuaranty', 'city', 'tab', 'categoryProducts', 'ratingShow'
             ]]);
         }       
     
@@ -55,18 +57,6 @@ class StoreController extends Controller
             return view('ar.store.my-stores', compact('stores'));
     }
 
-    /* Display Store products inside this Sub Category
-    *
-    */
-    public function secionProducts($subcat_id)
-    {
-        $products= Product::where('sub_category_id', $subcat_id);
-
-        if(Session::get('lang') == 'en'){
-            return view('en.store.store-page', compact('products'));
-        }
-            return view('ar.store.store-page', compact('products'));
-    }
 
     /*
     * Display Return Policy 
@@ -93,6 +83,136 @@ class StoreController extends Controller
         }
             return view('ar.store.seller-guaranty', compact('store'));
     }
+
+
+    /*
+    *   For Store tab navigation
+    */
+    public function tab($id, $link)
+    {
+        //Eager Loading used
+        $store= Store::where('id', $id)->with('country', 'city')->first();
+
+        if ($link == 'high-sale'){
+          $products= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count','desc')->paginate(21);
+        }
+        elseif($link == 'recent-add'){
+           $products= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('id','desc')->paginate(21);
+        }
+
+        $all_main_cats= MainCategory::with('subCategories')->get();
+        $sub_cats= $store->subCategories()->with('mainCategories')->get();
+        
+        //Get Selected Sub Categories:
+        $select_sub_cats= [];
+        foreach ($sub_cats as $sub_cat) {
+            if(!in_array($sub_cat->id, $select_sub_cats)){
+                array_push($select_sub_cats, $sub_cat->id);
+                }    
+        }
+
+        //Get Selected Main Categories:
+        $select_main_cats= []; 
+        foreach ($sub_cats as $sub_cat) {
+            foreach($sub_cat->mainCategories as $main_cat){
+            if(!in_array($main_cat->id, $select_main_cats)){
+                array_push($select_main_cats, $main_cat->id);
+                } 
+            } 
+        }
+
+        //Get most saled products 
+        $most_sale= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count', 'desc')->take(4)->get();
+        
+
+        if(Session::get('lang') == 'en'){
+            return view('en.store.store-page', compact('store', 'products', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+        }
+            return view('ar.store.store-page', compact('store', 'products', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+    }
+
+    /*
+    * display products belong to this Sub Category
+    */
+    public function categoryProducts($store_id, $subcat_id){
+        //Eager Loading used
+        $store= Store::where('id', $store_id)->with('country', 'city')->first();
+
+        //Get store products in this sub category
+        $products= $store->products()->where('approve', 1)->where('sub_category_id', $subcat_id)->with('productImages', 'rating')->paginate(21);
+
+        $all_main_cats= MainCategory::with('subCategories')->get();
+        $sub_cats= $store->subCategories()->with('mainCategories')->get();
+        
+        //Get Selected Sub Categories:
+        $select_sub_cats= [];
+        foreach ($sub_cats as $sub_cat) {
+            if(!in_array($sub_cat->id, $select_sub_cats)){
+                array_push($select_sub_cats, $sub_cat->id);
+                }    
+        }
+
+        //Get Selected Main Categories:
+        $select_main_cats= []; 
+        foreach ($sub_cats as $sub_cat) {
+            foreach($sub_cat->mainCategories as $main_cat){
+            if(!in_array($main_cat->id, $select_main_cats)){
+                array_push($select_main_cats, $main_cat->id);
+                } 
+            } 
+        }
+
+        //Get most saled products 
+        $most_sale= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count', 'desc')->take(4)->get();
+        
+
+        if(Session::get('lang') == 'en'){
+            return view('en.store.store-page', compact('store', 'products', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+        }
+            return view('ar.store.store-page', compact('store', 'products', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+    }
+
+    /*
+    * Display Store Ratings
+    */
+    public function ratingShow($store_id)
+    {
+        //Eager Loading used
+        $store= Store::where('id', $store_id)->with('country', 'city')->first();
+
+        //Get store ratings
+       $ratings= $store->rating()->paginate(21);
+
+        $all_main_cats= MainCategory::with('subCategories')->get();
+        $sub_cats= $store->subCategories()->with('mainCategories')->get();
+        
+        //Get Selected Sub Categories:
+        $select_sub_cats= [];
+        foreach ($sub_cats as $sub_cat) {
+            if(!in_array($sub_cat->id, $select_sub_cats)){
+                array_push($select_sub_cats, $sub_cat->id);
+                }    
+        }
+
+        //Get Selected Main Categories:
+        $select_main_cats= []; 
+        foreach ($sub_cats as $sub_cat) {
+            foreach($sub_cat->mainCategories as $main_cat){
+            if(!in_array($main_cat->id, $select_main_cats)){
+                array_push($select_main_cats, $main_cat->id);
+                } 
+            } 
+        }
+
+        //Get most saled products 
+        $most_sale= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count', 'desc')->take(4)->get();
+
+        if(Session::get('lang') == 'en'){
+            return view('en.store.store-rating-page', compact('store', 'ratings', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+        }
+            return view('ar.store.store-rating-page', compact('store', 'ratings', 'sub_cats', 'select_main_cats', 'all_main_cats', 'select_sub_cats', 'most_sale'));
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -237,7 +357,7 @@ class StoreController extends Controller
         //Eager Loading used
         $store= Store::where('id', $id)->with('country', 'city')->first();
 
-        $products= $store->products()->orderBy('id','desc')->paginate(18);
+        $products= $store->products()->where('approve', 1)->with('productImages', 'rating')->paginate(21);
         
         $all_main_cats= MainCategory::with('subCategories')->get();
         $sub_cats= $store->subCategories()->with('mainCategories')->get();
@@ -260,8 +380,8 @@ class StoreController extends Controller
             } 
         }
 
-        //Get most saled products !!!REMEBER TO PUT RATE RELATION!!!
-        $most_sale= $store->products()->orderBy('sell_count', 'desc')->take(4)->get();
+        //Get most saled products 
+        $most_sale= $store->products()->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count', 'desc')->take(4)->get();
         
 
         if(Session::get('lang') == 'en'){

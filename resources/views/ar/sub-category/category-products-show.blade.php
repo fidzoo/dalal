@@ -408,9 +408,7 @@
                 <input type="hidden" id="selected-sizes" name="selected-sizes" value="">
                 <input type="hidden" id="selected-rating" name="selected-rating" value="">
                 
-                <div class="button apply">
-                    <button type="submit">تطبيق الفلتر</button> 
-                </div>
+<button class="button apply" type="submit">تطبيق الفلتر</button>
                 <!-- ./block filter  -->
 
                 {!! Form::close() !!}

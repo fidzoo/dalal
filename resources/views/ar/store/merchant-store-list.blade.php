@@ -10,7 +10,15 @@
     	text-align: center;
 	}
 </style>
-<h3>اختر المتجر المراد استخدامه</h3> 
+
+<div class="panel panel-primary">
+
+<div class="panel-heading">
+<h1 class="panel-title">
+اختر المتجر المراد استخدامه
+</h1>
+</div> 
+<div class="panel-body">
 <div class="wrapper">
     <div class="row">
     		@foreach ($stores as $store)
@@ -46,6 +54,7 @@
             @endforeach
 	</div>
 </div>
-
+</div>
+</div>
 
 @stop

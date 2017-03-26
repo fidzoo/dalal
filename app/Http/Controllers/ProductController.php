@@ -17,6 +17,7 @@ use App\Store;
 use App\Currency;
 use App\ShippingCompany;
 use App\Country;
+use App\Notification;
 use App\Http\Requests;
 use Session, Redirect, File, Auth, DB;
 
@@ -37,6 +38,7 @@ class ProductController extends Controller
     * - merchPorductsStatus(): [Merchant] Display Products Status
     * - stockStatus(): [Merchant] Display stock status for products 
     * - stockUpdate(): [Merchant] To update stock value
+    * - reviewNotes(): [Merchant] Display the product review notes
     */
 
     public function __construct()
@@ -111,13 +113,22 @@ class ProductController extends Controller
                 $selected_colors= $product->colorimages()->select('image_path', 'id')->get();
             }
             
+            //get quantity offers:
+            //check if there qty offers first
+            if ($product->qty_offer == 1) {
+                $qty_offers= DB::table('qty_offers')->where('product_id', $product->id)->get();
+            }
+
             //get product images:
             $product_images= $product->productImages()->select('image_path', 'id')->get();
 
+            //get Commercial images:
+            $comm_images= $product->commercialImages()->select('image_path', 'id')->get();
+
         if(Session::get('lang') == 'en'){
-            return view('en.product.admin-review-product', compact('product', 'sections', 'selected_sub', 'main_categories', 'sub_categories', 'all_sizes', 'all_specs', 'used_specs', 'selected_sizes', 'selected_colors', 'product_images'));
+            return view('en.product.admin-review-product', compact('product', 'sections', 'selected_sub', 'main_categories', 'sub_categories', 'all_sizes', 'all_specs', 'used_specs', 'selected_sizes', 'selected_colors', 'qty_offers', 'product_images', 'comm_images'));
         }
-            return view('ar.product.admin-review-product', compact('product', 'sections', 'selected_sub', 'main_categories', 'sub_categories', 'all_sizes', 'all_specs', 'used_specs', 'selected_sizes', 'selected_colors', 'product_images')); 
+            return view('ar.product.admin-review-product', compact('product', 'sections', 'selected_sub', 'main_categories', 'sub_categories', 'all_sizes', 'all_specs', 'used_specs', 'selected_sizes', 'selected_colors', 'qty_offers', 'product_images', 'comm_images')); 
         }
         return Redirect('/');
     }
@@ -182,6 +193,28 @@ class ProductController extends Controller
       }  
     }
 
+    /*
+    *  [Merchant] Display the product review notes
+    */
+    public function reviewNotes()
+    {
+        if(Session::get('group') == 'merchant'){
+
+            $review_notes= DB::table('review_notes')
+                ->where('review_notes.user_id', Session::get('user_id'))
+                ->join('stores', 'review_notes.store_id', '=', 'stores.id')
+                ->join('products', 'review_notes.product_id', '=', 'products.id')
+                ->select('ar_name', 'ar_title', 'notes')
+                ->get();
+
+            if(Session::get('lang') == 'en'){
+                return view('en.review-notes.review-notes', compact('review_notes'));
+            }
+                return view('ar.review-notes.review-notes', compact('review_notes'));
+        }
+        return Redirect('/');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -197,10 +230,10 @@ class ProductController extends Controller
     {
         $search= $request->input('search');
         if ($request->input('lang') == 'en'){
-            $products= Product::where('en_title', 'like', '%'.$search.'%')->get();
+            $products= Product::where('en_title', 'like', '%'.$search.'%')->with('productImages')->get();
         }
         else{
-            $products= Product::where('ar_title', 'like', '%'.$search.'%')->get();
+            $products= Product::where('ar_title', 'like', '%'.$search.'%')->with('productImages')->get();
             }
         return $products;
     }
@@ -422,7 +455,7 @@ class ProductController extends Controller
         }
         else { $qty_offers= false; }
 
-        $most_sale= Product::where('store_id', $product->store->id)->where('approve', 1)->orderBy('sell_count', 'desc')->take(4)->get();
+        $most_sale= Product::where('store_id', $product->store->id)->where('approve', 1)->with('productImages', 'rating')->orderBy('sell_count', 'desc')->take(4)->get();
 
         $countries= Country::select('id', 'ar_name', 'en_name')->get(); 
 
@@ -520,7 +553,8 @@ class ProductController extends Controller
         $product= Product::find($id);
 
         //check if the product belongs to this merchant and store or not: 
-        if(Session::get('group') == 'merchant' &&  $product->store_id == $store_id || Session::get('group') == 'admin'){
+        // if(Session::get('group') == 'merchant' &&  $product->store_id == $store_id || Session::get('group') == 'admin'){
+        if(Session::get('group') == 'merchant' &&  $product->store_id == $store_id){
 
             $product->sub_category_id= $request->input('subcategory');
             $product->ar_title= $request->input('ar_title');
@@ -541,7 +575,7 @@ class ProductController extends Controller
                 $product->qty_offer= 0;
             }
 
-            $product->currency_id= $request->input('currency');
+            //$product->currency_id= $request->input('currency');
             $product->stock= $request->input('stock');
             $product->ar_unit_type= $request->input('ar_unit_type');
             $product->en_unit_type= $request->input('en_unit_type');
@@ -633,17 +667,44 @@ class ProductController extends Controller
                 $product->commercialImages()->create(['image_path'=>'images/'.$filename]);
                 }
             }
+            $product->save();
+            
+            
 
-            //--------------------------------
+            
+
+            if (Session::get('lang') == "en"){
+                return Redirect::to('products-edit-list/'.$store_id)->with('message', 'Product Updated successfully!');
+            }
+                return Redirect::to('products-edit-list/'.$store_id)->with('message', 'تم تحديث المنتج بنجاح!'); 
+        }
+        //--------------------------------
             //This part belongs website "Admins":
-            if ($request->input('request_type') == 'admin_approve') {
-
+            if ($request->input('request_type') == 'admin_approve' && Session::get('group') == 'admin') {
+                //Approve product:
                 if($request->input('review') == 'accept'){
                     $product->approve= 1;   
                 }
-                else $product->approve= 2;
+                else {
+                //Reject product:
+                    $product->approve= 2;
+                    $owner_id= $product->store->user->id;
+                    //Insert reject notes to the DB
+                    DB::table('review_notes')->insert(['user_id'=>$owner_id, 'store_id'=>$product->store_id, 'product_id'=>$product->id, 'notes'=>$request->input('reject-reasons'), 'created_at'=>date("Y-m-d H:i:s")]);
 
-                $product->save();
+                    //Create reject notification:
+                    $notify= new Notification;
+                    $notify->belongs_to= 'merchant';
+                    $notify->receiver_id= $owner_id;
+                    $notify->group= 'product-approve';
+                    $notify->ar_title= 'عذرًا، تم رفض المنتج رقم '.$product->id.' اضغط هنا للأطلاع على أسباب الرفض.';
+                    $notify->en_title= 'Sorry, Product No. '.$product->id.' is rejected, open this notification to read the reject reason.';
+                    $notify->link= 'review-notes';
+                    $notify->read= 0;
+                    $notify->save();
+                }
+
+                $product->save();    
 
                 if (Session::get('lang') == "en"){
                 return Redirect::to('all-pending-products')->with('message', 'Product Status Updated successfully!');
@@ -651,14 +712,6 @@ class ProductController extends Controller
                 return Redirect::to('all-pending-products')->with('message', 'تم تحديث حالة المنتج بنجاح!'); 
             }
             //---- end of Admin area ---------
-
-            $product->save();
-
-            if (Session::get('lang') == "en"){
-                return Redirect::to('products-edit-list/'.$store_id)->with('message', 'Product Updated successfully!');
-            }
-                return Redirect::to('products-edit-list/'.$store_id)->with('message', 'تم تحديث المنتج بنجاح!'); 
-        }
         else return Redirect('/'); 
     }
 

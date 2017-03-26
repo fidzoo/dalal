@@ -46,4 +46,13 @@ class User extends Authenticatable
     public function stores(){
         return $this->hasMany('App\Store');
     }
+
+    //cutome "favorites" table
+    public function favorites(){
+        return $this->belongsToMany('App\Product', 'favorites');
+    }
+
+    public function orders(){
+        return $this->hasMany('App\Product');
+    }
 }

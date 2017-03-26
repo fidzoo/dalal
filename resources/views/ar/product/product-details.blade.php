@@ -32,20 +32,20 @@
             <div class="breadcrumb clearfix">
                 <a>أنت تتصفح : </a>
                 <span class="navigation-pipe">&nbsp;</span>
-                <a class="home" href='{!! URL::to("/") !!}' title="الرئيسية">دلال مول</a>
+                <a class="home" title="الرئيسية">دلال مول</a>
                 <span class="navigation-pipe">&nbsp;</span>
                 <?php $section_id= $product->subCategory->maincategories[0]->section->id;
 $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->section->ar_title); ?>
-                    <a class="home" href='{!! URL::to("section/$section_id/$url") !!}' title="الرئيسية">{!!$product->subCategory->maincategories[0]->section->ar_title!!}</a>
+                    <a class="home" title="الرئيسية">{!!$product->subCategory->maincategories[0]->section->ar_title!!}</a>
 
                     <span class="navigation-pipe">&nbsp;</span>
                     <?php $mcat_id= $product->subCategory->maincategories[0]->id;
 $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); ?>
-                        <a href='{!! URL::to("main-category/$mcat_id/$url") !!}' title="Return to Home">{!!$product->subCategory->maincategories[0]->ar_title!!}</a>
+                        <a title="Return to Home">{!!$product->subCategory->maincategories[0]->ar_title!!}</a>
 
                         <span class="navigation-pipe">&nbsp;</span>
                         <?php $url=str_replace(" ", "-", $product->subCategory->ar_title); ?>
-                            <a href='{!! URL::to("sub-category/$product->sub_category_id/$url") !!}' title="Return to Home">{!!$product->subCategory->ar_title!!} </a>
+                            <a title="Return to Home">{!!$product->subCategory->ar_title!!} </a>
 
 
             </div>
@@ -227,9 +227,11 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
 
                             <div class="detail-info-entry">
                                 <a id="add-to-cart" class="button style-7">أضف لسلة التسوق</a>
-                                <a class="button style-4">أضف للمفضلة</a>
-                                <a class="button style-20">إشترى الأن</a>
+                                <a id="add-to-favo" class="button style-4">أضف للمفضلة</a>
+                                <a id="buy-now" class="button style-20">اشترى الأن</a>
                                 <div class="clear"></div>
+                                {!!Form::open(['url'=>'checkout-details', 'id'=>'checkout'])!!}
+                                {!!Form::close()!!}
                             </div>
                         </div>
                         <div class="product-desc">
@@ -261,7 +263,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                 <a aria-expanded="false" data-toggle="tab" href="#product-detail">مواصفات المنتج</a>
                             </li>
                             <li>
-                                <a aria-expanded="true" data-toggle="tab" href="#reviews">التقييمات <span>( 450 ) </span></a>
+                                <a aria-expanded="true" data-toggle="tab" href="#reviews">التقييمات <span>( {{ $product->rating->count() }} ) </span></a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#extra-tabs">سياسة عمل المتجر</a>
@@ -323,51 +325,42 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
 
                             <div id="reviews" class="tab-panel">
                                 <div class="product-comments-block-tab">
+                                <?php $no= 1; ?>
+                                @foreach($product->rating as $rating)
                                     <div class="comment row">
                                         <div class="col-sm-3 author">
                                             <div class="grade">
                                                 <!-- <span>Grade</span>-->
                                                 <span class="reviewRating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-        </span>
+                                                    
+                                                    <div id="rateYo{{$no}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
+                                                </span>
                                             </div>
-                                            <div class="info-author">
-                                                <span><strong>محمد</strong></span>
-                                                <em>04/08/2015</em>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-9 commnet-dettail">
-                                            جيد جداً
-                                        </div>
-                                    </div>
-                                    <div class="comment row">
-                                        <div class="col-sm-3 author">
-                                            <div class="grade">
 
-                                                <span class="reviewRating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-        </span>
-                                            </div>
+                                            <script type="text/javascript">
+                                                $(function () {
+                     
+                                                  $("#rateYo"+'<?php echo $no ?>').rateYo({
+                                                    starWidth: "15px",
+                                                    rating: '<?php echo $rating->rating ?>',
+                                                    rtl: true,
+                                                    readOnly: true,
+                                                  });
+                                                 
+                                                });
+                                            </script>
+
                                             <div class="info-author">
-                                                <span><strong>احمد</strong></span>
-                                                <em>04/08/2016</em>
+                                                <span><strong>{{$rating->user->name}}</strong></span><br>
+                                                <em>{{date_format($rating->created_at, "Y/m/d")}}</em>
                                             </div>
                                         </div>
                                         <div class="col-sm-9 commnet-dettail">
-                                            جيد
+                                            {{$rating->comment}}
                                         </div>
                                     </div>
-                                    <p>
-                                        <a class="btn-comment" href="#">أكتب تعليق</a>
-                                    </p>
+                                    <?php $no++ ?>
+                                @endforeach
                                 </div>
 
                             </div>
@@ -382,6 +375,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                     <div class="page-product-box">
                         <h3 class="heading">منتجات شبيهة : </h3>
                         <ul class="product-list row">
+                        <?php $s= 1; ?>
                             @foreach($similar_products as $similar) 
                             @if($similar->id != $product->id)
                             <li class="col-sm-4">
@@ -399,14 +393,27 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                     </div>
                                     <div class="right-block">
                                         <h5 class="product-name">
-            	<a href='{{ URL::to( "product/$similar->id/$url") }}'>{!!$similar->ar_title!!}</a>
-            </h5>
+                                        	<a href='{{ URL::to( "product/$similar->id/$url") }}'>{!!$similar->ar_title!!}</a>
+                                        </h5>
                                         <div class="product-star">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
+                                            <div id="rateYoSimilar{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                         </div>
+
+                                        <!--Star rating script-->
+                                        <script type="text/javascript">
+                                            $(function () {
+                 
+                                              $("#rateYoSimilar"+'<?php echo $s ?>').rateYo({
+                                                starWidth: "15px",
+                                                rating: '<?php echo rating($similar->rating, count($similar->rating)) ?>',
+                                                rtl: true,
+                                                readOnly: true,
+                                              });
+                                             
+                                            });
+                                        </script>
+                                        <!--end of Star rating script-->
+
                                         <div class="content_price">
                                             @if($similar->price_offer == 1)
                                             <span class="price old-price">{{$similar->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
@@ -418,7 +425,9 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                     </div>
                                 </div>
                             </li>
-                            @endif  @endforeach
+                            @endif  
+                            <?php $s++ ?>
+                            @endforeach
                         </ul>
                     </div>
                     <!-- ./box product -->
@@ -441,19 +450,31 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                             <a class="pull-right">التقييم :</a>
                                             <div class="product-comments">
                                                 <div class="product-star pull-right">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-half-o"></i> &nbsp;
+                                                    <div id="rateYoStore" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
 
                                                 </div>
                                                 <div class="comments-advices pull-right">
-                                                    <a> <span>5.4 %</span></a>
+                                                    <a> <span>{!! rating_precent($product->store->rating, count($product->store->rating)) !!} %</span></a>
                                                 </div>
 
                                             </div>
                                         </li>
+
+                                        <!--Star rating script-->
+                                            <script type="text/javascript">
+                                                $(function () {
+                     
+                                                  $("#rateYoStore").rateYo({
+                                                    starWidth: "15px",
+                                                    rating: '<?php echo rating($product->store->rating, count($product->store->rating)) ?>',
+                                                    rtl: true,
+                                                    readOnly: true,
+                                                  });
+                                                 
+                                                });
+                                            </script>
+                                        <!--end of Star rating script-->
+
                                         <li><a href="#">تواصل مع المتجر</a></li>
                                         <li style="margin-top:20px;">
                                             @if($product->store->return_policy == 1)
@@ -473,6 +494,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                         <p class="title_block"> المنتجات الأكثر مبيعا بواسطة هذا المتجر</p>
                         <div class="block_content">
                             <ul class="products-block best-sell">
+                            <?php $s= 1 ?>
                                 @foreach($most_sale as $most_product)
                                 @if($most_product->id != $product->id)
                                 <li class="col-sm-12">
@@ -489,15 +511,30 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                         @endif
                                         </div>
                                         <div class="right-block">
+                                        <br>
                                             <h5 class="product-name">
-        <a href='{{ URL::to( "product/$most_product->id/$url") }}'>{!!$most_product->ar_title!!}</a>
-    </h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
+                                                <a href='{{ URL::to( "product/$most_product->id/$url") }}'>{!!$most_product->ar_title!!}</a>
+                                            </h5>
+                                           <br>
+                                            <div class="product-star" style=" float: none;">
+                                                <div id="rateYoMost{{$s}}" style="direction: ltr;"></div> &nbsp; &nbsp; &nbsp;
                                             </div>
+
+                                            <!--Star rating script-->
+                                            <script type="text/javascript">
+                                                $(function () {
+                     
+                                                  $("#rateYoMost"+'<?php echo $s ?>').rateYo({
+                                                    starWidth: "15px",
+                                                    rating: '<?php echo rating($most_product->rating, count($most_product->rating)) ?>',
+                                                    rtl: true,
+                                                    readOnly: true,
+                                                  });
+                                                 
+                                                });
+                                            </script>
+                                            <!--end of Star rating script-->
+
                                             <div class="content_price">
                                             @if($most_product->price_offer == 1)
                                             <span class="price old-price">{{$most_product->price}} {{Session::has('currency') ? Session::get('currency') : 'رس'}}</span>
@@ -510,6 +547,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                                     </div>
                                 </li>
                                 @endif
+                                <?php $s++ ?>
                                 @endforeach
                             </ul>
                         </div>
@@ -589,6 +627,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
             if (newVal >= '<?php echo $offer->qty ?>') {
                 price = '<?php echo $offer->new_price ?>';
                 $('#original_price').data('price');
+                $('#original_price').html(price);
             }
             <?php endforeach ?>
             <?php endif ?>
@@ -638,10 +677,12 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                 if (newVal >= '<?php echo $offer->qty ?>') {
                     price = '<?php echo $offer->new_price ?>';
                     $('#original_price').data('price');
+                    $('#original_price').html(price);
                 }
             } else {
                 price = '<?php echo $product->price; ?>';
                 $('#original_price').data('price');
+                $('#original_price').html(price);
             }
 
             <?php endforeach ?>
@@ -775,7 +816,7 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                     },
                     success: function(data) {
                         alert('تم إضافة المنتج في سلة الشراء بنجاح!');
-                        location.reload();
+                        location.reload(); //page reload
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                            console.log(xhr.status);
@@ -784,6 +825,71 @@ $url=str_replace(" ", "-", $product->subCategory->maincategories[0]->ar_title); 
                        }
                 });
     });
+
+    //Add to Favorite Script:
+    $('#add-to-favo').click(function(){
+        $.ajax({
+                    type: 'post',
+                    url: '/addToFavorite',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'user_id': '<?php echo Session::get('user_id'); ?>',
+                        'product_id': '<?php echo $product->id; ?>',
+                    },
+                    success: function(data) {
+                        alert('تم إضافة المنتج في المفضلة بنجاح!');
+                        location.reload();
+                    },
+                    error: function () {
+                           alert('يجب عليك أولاً تسجيل الدخول للإضافة إلى المفضلة!')
+                       }
+                });
+    });
+
+    //"Buy Now" button script:
+    $('#buy-now').click(function(){
+        $.ajax({
+                    type: 'post',
+                    url: '/addToCart',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'id': '<?php echo $product->id ?>',
+                        'name': '<?php echo $product->ar_title ?>',
+                        'qty': qty_counter,
+                        'price': price,
+                        'color': selected_color,
+                        'size': selected_size,
+                        'shipping_single_price': $('input[name=shipping-company]:checked').data('shprice'),
+                        'shipping': $('input[name=shipping-company]:checked').val(),
+                        'store_id': '<?php echo $product->store_id ?>',
+                        'store_name': '<?php echo $product->store->ar_name ?>',
+                        'total_price': total_price.toFixed(2),
+                    },
+                    success: function(data) {
+                        var value= total_price.toFixed(2);
+                        var input = $("<input>")
+                               .attr("type", "hidden")
+                               .attr("name", "checkout-total")
+                               .attr("value", value);
+
+                        var store_id= '<?php echo $product->store_id ?>';
+                        var input2 = $("<input>")
+                               .attr("type", "hidden")
+                               .attr("name", "store-id")
+                               .attr("value", store_id);
+
+                        $('#checkout').append([$(input), $(input2)]);
+                        
+                        $('#checkout').submit();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                           console.log(xhr.status);
+                           console.log(xhr.responseText);
+                           console.log(thrownError);
+                       }
+                });  
+    });
+
 </script>
 
 

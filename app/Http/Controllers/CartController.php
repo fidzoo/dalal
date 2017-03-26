@@ -69,6 +69,9 @@ class CartController extends Controller
 
         //process the request from the big cart:
         if ($request->is('checkout-details')){
+            //Get Store id
+            $store_id= $request->input('store-id');
+
             $cart_total= $request->input('checkout-total');
 
             //Get Countries for the dropdown
@@ -87,9 +90,9 @@ class CartController extends Controller
 
 
         if(Session::get('lang') == 'en'){
-            return view('en.cart.checkout-details', compact('cart_total', 'countries', 'user_data', 'data', 'cities'));
+            return view('en.cart.checkout-details', compact('store_id', 'cart_total', 'countries', 'user_data', 'data', 'cities'));
         }
-            return view('ar.cart.checkout-details', compact('cart_total', 'countries', 'user_data', 'data', 'cities'));
+            return view('ar.cart.checkout-details', compact('store_id', 'cart_total', 'countries', 'user_data', 'data', 'cities'));
     }
     
 }

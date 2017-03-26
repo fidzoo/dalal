@@ -1,5 +1,5 @@
 @extends('ar.layouts.ar-main-layout') 
-
+<title>دلال مول | الاستبدال والاسترجاع</title>
 @section('content')
 <div class="page-top">
     <div class="container" id="columns">
@@ -11,18 +11,14 @@
             	<div class="breadcrumb clearfix">
                         <a>أنت تتصفح : </a>
                         <span class="navigation-pipe">&nbsp;</span>
-                         <a class="home" href="#" title="الرئيسية">دلال مول</a>
+                         <a class="home" href='{!! URL::to("/") !!}' title="الرئيسية">دلال مول</a>
                         <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">أحذية وملابس وإكسسوارتها</a>
-                        <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">ملابس رجالية </a>
-                        <span class="navigation-pipe">&nbsp;</span>
-                        <a href="#" title="Return to Home">جواكيت رجالي</a>
+                        <a href='{!! URL::to("replacement") !!}' title="الاستبدال والاسترجاع">الاستبدال والاسترجاع</a>
             
                     </div>
                 <!-- category-slider -->
               <div class="category-slider">
-                <img src='{!! asset("$replacement->image") !!}' alt="category-slider" class="img-responsive">
+                <img src='{!! asset("$replacement->image") !!}' alt="الاستبدال والاسترجاع" class="img-responsive">
               </div>
                 <!-- ./category-slider -->
             </div>
@@ -32,7 +28,7 @@
                 <div class="content-text clearfix">
                     <!-- page heading-->
                     <h2 class="page-heading2">
-                        <span class="page-heading-title2">{{ $replacement->item }}</span>
+                        <span class="page-heading-title2">الاستبدال والاسترجاع</span>
                     </h2>
                     <p>{{ $replacement->ar_content }}</p>
                 </div>

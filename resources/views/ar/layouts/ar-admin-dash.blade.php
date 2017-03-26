@@ -72,13 +72,13 @@
 
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إعدادات الموقع</span></a>
+                <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إعدادات الموقع</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
-                        <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
 
                     </ul>
-                </li>
+                </li> -->
                 <li class="menu-list"><a href="index.html"><i class="fa fa-tasks"></i> <span>تهيئة أقسام الموقع</span></a>
                     <ul class="sub-menu-list">
                         <li><a href='{!! URL::to("sections-manage") !!}'> إدارة الأقسام</a></li>
@@ -88,75 +88,50 @@
                 </li>
 
 
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إدارة المتاجر</span></a>
+                <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إدارة المتاجر</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="blank_page.html"> Blank Page</a></li>
-                        <li><a href="boxed_view.html"> Boxed Page</a></li>
-                        <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
-                        <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
+                        
 
                     </ul>
-                </li>
+                </li> -->
                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إدارة المنتجات</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="general.html"> General</a></li>
-                        <li><a href="buttons.html"> Buttons</a></li>
-                        <li><a href="tabs-accordions.html"> Tabs & Accordions</a></li>
-                        <li><a href="typography.html"> Typography</a></li>
-                        <li><a href="slider.html"> Slider</a></li>
-                        <li><a href="panels.html"> Panels</a></li>
-                        <li><a href="widgets.html"> Widgets</a></li>
+                        <li><a href='{!! URL::to("all-pending-products") !!}'> منتجات في انتظار الموافقة</a></li>
+                        
                     </ul>
                 </li>
                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>إدارة الإعلانات</span></a>
                     <ul class="sub-menu-list">
                         <li><a href='{!! URL::to("home-banners") !!}'> إعلانات الصفحة الرئيسية</a></li>
                         <li><a href='{!! URL::to("subcat-banner") !!}'> إعلان صفحة القسم الداخلي</a></li>
-                        <li><a href="calendar.html"> Calendar</a></li>
-                        <li><a href="tree_view.html"> Tree View</a></li>
-                        <li><a href="nestable.html"> Nestable</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
 
                     </ul>
                 </li>
 
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>التقارير</span></a>
+                <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>التقارير</span></a> -->
 
-                <li class="menu-list"><a href=""><i class="fa fa-envelope"></i> <span>Mail</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="mail.html"> Inbox</a></li>
-                        <li><a href="mail_compose.html"> Compose Mail</a></li>
-                        <li><a href="mail_view.html"> View Mail</a></li>
-                    </ul>
-                </li>
+                
 
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>متابعة الشكاوي</span></a>
+                <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>متابعة الشكاوي</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="form_layouts.html"> Form Layouts</a></li>
-                        <li><a href="form_advanced_components.html"> Advanced Components</a></li>
-                        <li><a href="form_wizard.html"> Form Wizards</a></li>
-                        <li><a href="form_validation.html"> Form Validation</a></li>
-                        <li><a href="editors.html"> Editors</a></li>
-                        <li><a href="inline_editors.html"> Inline Editors</a></li>
-                        <li><a href="pickers.html"> Pickers</a></li>
-                        <li><a href="dropzone.html"> Dropzone</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
+                        
                     </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>النشرات البريدية / الهاتفية</span></a>
+                </li> -->
+                <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>النشرات البريدية / الهاتفية</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="flot_chart.html"> Flot Charts</a></li>
-                        <li><a href="morris.html"> Morris Charts</a></li>
-                        <li><a href="chartjs.html"> Chartjs</a></li>
-                        <li><a href="c3chart.html"> C3 Charts</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
+                        
                     </ul>
-                </li>
-                <li class="menu-list"><a href="#"><i class="fa fa-tasks"></i> <span>العمولات</span></a>
+                </li> -->
+                <!-- <li class="menu-list"><a href="#"><i class="fa fa-tasks"></i> <span>العمولات</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="basic_table.html"> Basic Table</a></li>
-                        <li><a href="dynamic_table.html"> Advanced Table</a></li>
-                        <li><a href="responsive_table.html"> Responsive Table</a></li>
-                        <li><a href="editable_table.html"> Edit Table</a></li>
+                        <li><a href="#"> قائمة فرعية</a></li>
+                        
                     </ul>
-                </li>
+                </li> -->
                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>محتويات الموقع</span></a>
                     <ul class="sub-menu-list">
               
@@ -175,7 +150,7 @@
                     </ul>
                 </li>
                 
-                <li><a href="login.html"><i class="fa fa-sign-in"></i> <span>تسجيل الخروج</span></a></li>
+                <li><a href='{!! URL::to("logout") !!}'><i class="fa fa-sign-in"></i> <span>تسجيل الخروج</span></a></li>
 
             </ul>
             <!--sidebar nav end-->
@@ -200,45 +175,7 @@
             <div class="menu-right">
                 <ul class="notification-menu">
                     
-                    <li>
-                        <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge">5</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-head pull-right">
-                            <h5 class="title">لديك 3 رسائل جديدة </h5>
-                            <ul class="dropdown-list normal-list">
-                                <li class="new">
-                                        <a href="">
- <span class="thumb"><img src='{!! asset("ar-assets/back-end/images/photos/user1.png") !!}' alt="" /></span>
-                                        <span class="desc">
-                                          <span class="name">أحمد عبدالله <span class="badge badge-success">تاجر</span></span>
-                                          <span class="msg">السلام عليكم يا سيدي الك....</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="thumb"><img src='{!! asset("ar-assets/back-end/images/photos/user2.png") !!}' alt="" /></span>
-                                        <span class="desc">
-                                          <span class="name">كيرلس إسكندر<span class="badge badge-success">تاجر</span></span>
-                                          <span class="msg">السلام عليكم يا سيدي الك....</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="thumb"><img src='{!! asset("ar-assets/back-end/images/photos/user3.png") !!}' alt="" /></span>
-                                        <span class="desc">
-                                          <span class="name">فريد إيهاب<span class="badge badge-warning">مشتري</span></span>
-                                          <span class="msg">السلام عليكم يا سيدي الك....</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="new"><a href="">إقرأ جميع الرسائل</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                    
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
@@ -268,7 +205,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                             <li><a href="#"><i class="fa fa-user"></i>  الملف الشخصي</a></li>
-                            <li><a href="#"><i class="fa fa-sign-out"></i>تسجيل الخروج</a></li>
+                            <li><a href='{!! URL::to("logout") !!}'><i class="fa fa-sign-out"></i>تسجيل الخروج</a></li>
                         </ul>
                     </li>
 

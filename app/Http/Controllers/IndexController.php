@@ -47,4 +47,49 @@ class IndexController extends Controller
         }
             return view('ar.index', compact('slider_imgs', 'banner1', 'banner2', 'banner3', 'most_sold', 'sell_label', 'recent_added', 'recent_label', 'most_rated', 'rated_label', 'todays_deal', 'deal_label')); 
     }
+
+
+    public function showMore(Request $request)
+    {
+        if ($request->is('recent-products')){
+            $products= Product::where('approve', 1)->orderBy('id','desc')->with('productImages', 'rating')->paginate(21);
+            
+            $banner= Banner::find(4);
+
+            if(Session::get('lang') == 'en'){
+                return view('en.sitecontent.recent-products', compact('products', 'banner'));
+                }
+                return view('ar.sitecontent.recent-products', compact('products', 'banner'));
+
+
+        }
+        elseif($request->is('high-sales')){
+            $products= Product::where('approve', 1)->orderBy('sell_count','desc')->with('productImages', 'rating')->paginate(21);
+        
+            $banner= Banner::find(4);
+
+
+            if(Session::get('lang') == 'en'){
+                return view('en.sitecontent.high-sales', compact('products', 'banner'));
+                }
+                return view('ar.sitecontent.high-sales', compact('products', 'banner'));
+        }
+        elseif($request->is('high-rating')){
+            $products= Product::where('approve', 1)->orderBy('rating_percent','desc')->with('productImages', 'rating')->paginate(21);
+        
+            $banner= Banner::find(4);
+
+
+            if(Session::get('lang') == 'en'){
+                return view('en.sitecontent.high-rating', compact('products', 'banner'));
+                }
+                return view('ar.sitecontent.high-rating', compact('products', 'banner'));    
+        }
+
+
+            
+
+            
+        
+    }
 }

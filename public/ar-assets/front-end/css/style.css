@@ -1322,6 +1322,9 @@ img.alignright{
     top: 12px;
     right: 12px;
 }
+.main-header .shopping-cart-box a.cart-link.noicon:after{
+    background:  none;/*#ff3366*/
+}
 .cart-block{
   position: absolute;
   top: 100%;
@@ -3009,7 +3012,7 @@ div#navbar2 .nav li a{color: black !important;}
 	border: 1px solid #eaeaea;
 	overflow: hidden;
 	background: white;
-min-height: 265px;
+    min-height: 280px;
 }
 .product-featured .product-list li{
     padding-bottom: 10px;
@@ -4344,7 +4347,19 @@ min-height: 265px;
   font-size: 16px;
 
 }
-
+.info-author { text-align: center; }
+    
+    
+.filter-button {
+   text-align: center;
+   width: 100%;
+   background-color: #FFF;
+   height: 35px;
+   font-weight: bold;
+}
+.filter-button:hover {
+    border: 1px solid #DDD;    
+}
  .sortPagiBar li a { color: #000;}
   .sortPagiBar li a:hover {background: #ff3366; color: #fff;}
   .sortPagiBar li.active span { border: 0px solid transparent; background: #000; }

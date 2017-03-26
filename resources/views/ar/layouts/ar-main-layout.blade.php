@@ -126,13 +126,13 @@
                                                     </li>
                                                     
                                                     <li>
-                                                        <a href="#">
+                                                        <a href='{!! URL::to("recent-products") !!}'>
                                                             <img src='{!! asset("ar-assets/front-end/images/icons/last.png") !!}' alt="" title="" />
                                                             <span> المنتجات المٌضافة مؤخرًا </span>
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
+                                                        <a href='{!! URL::to("high-sales") !!}'>
                                                             <img src='{!! asset("ar-assets/front-end/images/icons/best.png") !!}' alt="" title="" />
                                                             <span>المنتجات الأكثر بيعًا</span>
                                                         </a>
@@ -231,15 +231,18 @@
                                             <div class="title"><img src='{!! asset("ar-assets/front-end/images/icons/sign-in.png") !!}' alt="" title="" />  حسابى<i class="fa fa-caret-down"></i></div>
                                             <div class="list">
                                                 <a href="#" class="list-entry">تعديل حسابي</a>
-                                                <a href="#" class="list-entry">تتبع طلباتي</a>
-                                                <a href="#" class="list-entry">طلباتي الحالية</a>
+                                                @if(Session::get('group') == 'buyer')
+                                                <a href='{!! URL::to("current-orders") !!}' class="list-entry">تتبع طلباتي</a>
+                                                <a href='{!! URL::to("orders-history") !!}' class="list-entry">سجل طلباتي</a>
+                                                <a href='{!! URL::to("my-favorites") !!}' class="list-entry">المفضلة</a>
+                                                @endif
                                                 <a href='{!! URL::to("logout") !!}' class="list-entry">تسجيل الخروج</a>
                                             </div>
                                         </div>
                                     </li>
                                     
                                     <li>
-                                        
+                                        @if(Session::get('group') == 'buyer')
                                         <div id="cart-block" class="shopping-cart-box">
                                             <a class="cart-link" href="#">طلباتي<i class="fa fa-caret-down"></i>
                                             <span class="notify notify-left">{{Cart::count()}}</span>
@@ -294,6 +297,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @else
+                                     <div id="cart-block" class="shopping-cart-box">  
+                                            <a class="cart-link noicon" href='{!! URL::to("dash") !!}'>
+                                            لوحة التحكم
+                                            </a>
+                                     </div>
+                                        @endif
                                     </li>
                                     @endif
                                     </ul>
@@ -381,40 +391,40 @@
                 <div id="introduce-box"  class="col-md-3 col-sm-6 col-xs-12  pull-right">
                     <div class="introduce-title">معلومات</div>
                     <ul id = "introduce-support"  class="introduce-list">
-                        <li><a href="#">عن دلال مول</a></li>
-                        <li><a href="#">اتفاقية الاستخدام للتاجر</a></li>
-                        <li><a href="#">اتفاقية الاستخدام للمشتري</a></li>
-                        <li><a href="#">كيفية البيع</a></li>
-                        <li><a href="#">كيفية الشراء</a></li>
-                        <li><a href="#">طرق الدفع</a></li>
+            <li><a href='{!! URL::to("about") !!}'>عن دلال مول</a></li>
+            <li><a href='{!! URL::to("merchant-agreement") !!}'>اتفاقية الاستخدام للتاجر</a></li>
+            <li><a href='{!! URL::to("buyer-agreement") !!}'>اتفاقية الاستخدام للمشتري</a></li>
+            <li><a href='{!! URL::to("selling-instruct") !!}'>كيفية البيع</a></li>
+            <li><a href='{!! URL::to("buy-instruct") !!}'>كيفية الشراء</a></li>
+            <li><a href='{!! URL::to("payment-methods") !!}'>طرق الدفع</a></li>
                     </ul>
                 </div>
                 <div  id="introduce-box" class="col-md-2 col-sm-6 col-xs-12  pull-right">
                     <div class="introduce-title">سياسة الموقع</div>
                     <ul id = "introduce-Account" class="introduce-list">
-                        <li><a href="#">سياسة الخصوصية</a></li>
-                        <li><a href="#"> الاستبدال والاسترجاع</a></li>
-                        <li><a href="#"> الشحن والتوصيل</a></li>
-                        <li><a href="#">الأسئلة الشائعة </a></li>
-                        <li><a href="#"> التوظيف</a></li>
-                        <li><a href="#"> المركز الإعلامي</a></li>
+            <li><a href='{!! URL::to("privacy-policy") !!}'>سياسة الخصوصية</a></li>
+            <li><a href='{!! URL::to("replacement") !!}'> الاستبدال والاسترجاع</a></li>
+            <li><a href='{!! URL::to("delivery-shipping") !!}'> الشحن والتوصيل</a></li>
+            <li><a href='{!! URL::to("FAQ") !!}'>الأسئلة الشائعة </a></li>
+            <li><a href='{!! URL::to("recruitment") !!}'> التوظيف</a></li>
+            <li><a href='{!! URL::to("media") !!}'> المركز الإعلامي</a></li>
                     </ul>
                 </div>
 
                 <div id="introduce-box"  class="col-md-2 col-sm-6 col-xs-12 pull-right">
                     <div class="introduce-title">خدمات العملاء</div>
                     <ul id="introduce-company"  class="introduce-list">
-                        <li><a href="#">امتلك متجرك </a></li>
-                        <li><a href="#">الملاحظات والمقترحات  </a></li>
-                        <li><a href="#"> تواصل معنا</a></li>
-                        <li><a href="#"> خريطة الموقع</a></li>
+                        <li><a href='{!! URL::to("/") !!}'>امتلك متجرك </a></li>
+                        <li><a href='{!! URL::to("suggestions") !!}'>الملاحظات والمقترحات  </a></li>
+                        <li><a href='{!! URL::to("/") !!}'> تواصل معنا</a></li>
+                        <li><a href='{!! URL::to("/") !!}'> خريطة الموقع</a></li>
                     </ul>
                 </div>
                 <div id="introduce-box"  class="col-md-3 col-sm-6 col-xs-12 pull-right">
                     <div id="contact-box">
                         <div class="introduce-title">إضافات </div>
                         <ul id="introduce-company"  class="introduce-list">
-                            <li><a href="#">حسابي</a></li>
+                            <li><a href='{!! URL::to("/") !!}'>حسابي</a></li>
                         </ul>
                         <div>سجل في النشرة البريدية لموقع دلال مول، إدخل البريد الإلكتروني الخاص بك  </div>
                         <div class="input-group" id="mail-box">
@@ -474,7 +484,7 @@
                             <a href="#"><img src='{!! asset("ar-assets/front-end/data/trademark-ems.jpg") !!}'  alt="ups"/></a>
                         </li>
                         <li>
-                            <a href="#"><img src='{!! asset("ar-assets/front-end/data/assets/data/trademark-dhl.jpg") !!}'  alt="ups"/></a>
+                            <a href="#"><img src='{!! asset("ar-assets/front-end/data/trademark-dhl.jpg") !!}'  alt="ups"/></a>
                         </li>
 
                     </ul> 

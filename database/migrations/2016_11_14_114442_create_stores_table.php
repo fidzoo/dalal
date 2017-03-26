@@ -33,6 +33,7 @@ class CreateStoresTable extends Migration
             $table->boolean('seller_guaranty');
             $table->text('guaranty_text')->nullable();
             $table->text('store_policy')->nullable();
+            $table->float('rating_percent')->nullable();
             $table->timestamps();
         });
     }

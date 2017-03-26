@@ -27,6 +27,6 @@ class UserLoggedOut
      */
     public function handle(Logout $event)
     {
-        Session::forget('group', 'user_id');
+        Session::forget(['group', 'user_id']);
     }
 }

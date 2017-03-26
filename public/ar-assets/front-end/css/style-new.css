@@ -7,7 +7,9 @@
         opacity   : 0;
 		display:none;
       }
-
+      .form-control {
+text-align: right;
+}
       .pureCSS input[type=checkbox]:not(old) + label,
       .pureCSS input[type=radio   ]:not(old) + label{
         display      : inline-block;
@@ -76,7 +78,7 @@
 /*content block*/
 #content-block{position: relative; overflow: hidden;}
 /*last child margins*/
-#content-block *:last-child{margin-bottom: 0; direction: rtl  }
+#content-block *:last-child{margin-bottom: 0; /**direction: rtl **/ }
 /*nopadding class*/
 .nopadding {padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0;}
 /*content center*/

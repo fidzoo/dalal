@@ -19,6 +19,7 @@ class CreateProductRatingsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('user_id')->nullable();
             $table->float('rating');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

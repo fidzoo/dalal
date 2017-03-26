@@ -216,7 +216,7 @@
 {!! Form::text('price_type', $product->price_type, ['required']) !!}<br>
 
 
-{!! Form::label('العملة') !!}<br>
+<!-- {!! Form::label('العملة') !!}<br>
 <select name="currency" class="form-control">
 	@foreach($currencies as $currency)
 	  @if($product->currency_id == $currency->id) 
@@ -225,7 +225,9 @@
 	  <option value="{{$currency->id}}">{{$currency->ar_name}}</option>
 	  @endif
 	@endforeach
-</select><br>
+</select>
+ -->
+<br>
 
 <h4>تشغيل عروض على الكمية؟</h4>
 @if($product->qty_offer == 1)

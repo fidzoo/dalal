@@ -52,6 +52,7 @@
                                 <?php $p_no= 1; ?>
                                 @foreach($content as $product)
 
+                                {!! Form::hidden('store-id'.$s_no, $product->options->store_id, ['id'=>'store-id'.$s_no]) !!}
                                 <tbody>
                                     <tr>
                                         
@@ -192,13 +193,13 @@
                             
                             <div class="cart_navigation row">
                             	<div class="col-md-4 col-sm-6 col-xs-12 pull-right">
-                                    <a class="pull-right"> 
+                                    <!-- <a class="pull-right"> 
                                          المبلغ الكلى : <strong> 10 جنية  </strong>
                                     </a>
                                     <a class="pull-right"> 
                                         
                                         <span> تم توفير : <b> 100 درهم </b>  &nbsp;&nbsp;</span>
-                                    </a>
+                                    </a> -->
                                     
                                 </div>
                             
@@ -449,7 +450,13 @@
                .attr("name", "checkout-total")
                .attr("value", value);
         
-        $('#checkout'+$(this).data('loop')).append($(input));
+        var store_id= $('#store-id'+$(this).data('loop')).val();
+        var input2 = $("<input>")
+               .attr("type", "hidden")
+               .attr("name", "store-id")
+               .attr("value", store_id);
+        
+        $('#checkout'+$(this).data('loop')).append([$(input), $(input2)]);
         
         $('#checkout'+$(this).data('loop')).submit();
     });

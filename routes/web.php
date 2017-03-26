@@ -59,11 +59,14 @@ Route::get('filter-search', 'SearchController@filterSearch');
 Route::resource('store', 'StoreController');
 Route::resource('my-stores', 'StoreController@myStores'); //store list for edit/delete
 Route::get('stores-list/{usage}', 'StoreController@merchStoreList'); //select store
-Route::get('section-products/{subcat_id}', 'StoreController@secionProducts'); //Get products for the side menu
+//Route::get('section-products/{subcat_id}', 'StoreController@secionProducts'); //Get products for the side menu
 Route::get('return-policy/{store_id}', 'StoreController@returnPolicy');
 Route::get('seller-guaranty/{store_id}', 'StoreController@sellerGuaranty');
 //ajax display countrie's cities
 Route::get('/ajax-storecity', 'StoreController@city');
+Route::get('store-tab/{id}/{link}', 'StoreController@tab');
+Route::get('store-categories/{store_id}/{subcat_id}', 'StoreController@categoryProducts');
+Route::get('store/{store_id}/ratings', 'StoreController@ratingShow');
 //------Products Area----------
 Route::resource('product', 'ProductController');
 Route::get('product/{id}/{title}', 'ProductController@show');
@@ -88,6 +91,7 @@ Route::post('/deleteQtyOffer', 'ProductController@deleteQtyOffer');
 Route::get('all-pending-products', 'ProductController@allPendingProducts');
 Route::get('admin-approve-product/{id}', 'ProductController@adminApproveProduct');
 Route::get('my-products-status/{store_id}', 'ProductController@merchPorductsStatus');
+Route::get('review-notes', 'ProductController@reviewNotes');
 //-------Notifications Area----------
 Route::get('all-notifications', 'NotificationController@allNotfiy');
 Route::get('/ajax-notify', 'NotificationController@makeRead');
@@ -106,13 +110,27 @@ Route::post('item-cart-remove', 'CartController@remove');
 Route::get('minicart-checkout', 'CartController@checkoutDetails');
 
 Route::post('checkout-details', 'CartController@checkoutDetails');
+//-----------Payment Area-----------------
 Route::post('payment', 'PaymentController@paymentSelect');
+Route::post('order-pay', 'PaymentController@pay');
+//-----------Orders Area-----------------
+Route::get('purchase-orders', 'OrderController@ordersList');
+Route::get('delivered-orders', 'OrderController@deliveredOrders');
+Route::get('/ajax-product-status', 'OrderController@statusUpdate');
+Route::get('orders-history', 'OrderController@ordersHistory');
 //-----------Today's Deal-----------------
 Route::get('todays-deals-select', 'TodaysDealController@select');
+//-----------Favorite Area-----------------
+Route::post('/addToFavorite', 'FavoritesController@add');
+Route::get('my-favorites', 'FavoritesController@show');
+Route::post('item-favorite-remove', 'FavoritesController@delete');
 
 
 
 //----------Site Content-------------------
+Route::get('recent-products', 'IndexController@showMore');
+Route::get('high-sales', 'IndexController@showMore');
+Route::get('high-rating', 'IndexController@showMore');
 Route::get('home-slider-edit', 'SiteInfoController@homeSlider');
 Route::post('home-slider-edit', 'SiteInfoController@homeSliderUpload');
 Route::delete('home-slider-remove/{id}', 'SiteInfoController@homeSliderDelete');
@@ -148,7 +166,10 @@ Route::get('siteinfo-update', 'SiteInfoController@informationPage');
 Route::get('sitepolicy-update', 'SiteInfoController@informationPage');
 Route::get('customer-service-update', 'SiteInfoController@informationPage');
 //------------------------------------------
-
+Route::post('siteinfo-update', 'SiteInfoController@infoUpdate');
+Route::post('sitepolicy-update', 'SiteInfoController@policyUpdate');
+Route::post('customer-service-update', 'SiteInfoController@suctomerServiceUpdate');
+//------------------------------------------
 
 
 

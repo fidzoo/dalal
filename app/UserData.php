@@ -11,4 +11,12 @@ class UserData extends Model
     protected $fillable= [
     	'user_id', 'full_name', 'default_data', 'email', 'address', 'country_id', 'city_id', 'zip',  'tel_code', 'tel_number'
     ];
+
+    public function country(){
+    	return $this->belongsTo('App\Country');
+    }
+
+    public function city(){
+    	return $this->belongsTo('App\City');
+    }
 }

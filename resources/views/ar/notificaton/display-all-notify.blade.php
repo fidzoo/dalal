@@ -14,7 +14,7 @@
             <thead>
             <tr>
                 <th>الإشعار</th>
-                <th>اللينك</th>
+                <th>حذف الإشعار</th>
             </tr>
             </thead>
             <tbody>

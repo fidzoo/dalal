@@ -29,4 +29,9 @@ class Store extends Model
     public function subCategories(){
     	return $this->belongsToMany('App\SubCategory');
     }
+
+    public function rating()
+    {
+        return $this->hasMany('App\StoreRating');
+    }
 }

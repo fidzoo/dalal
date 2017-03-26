@@ -17,7 +17,7 @@
                 
             </div>
             <!-- Center colunm-->
-            <div class="center_column col-xs-12 col-sm-12 text-right" id="center_column">
+            <div style="direction: rtl;" class="center_column col-xs-12 col-sm-12 text-right" id="center_column">
                 <!-- Content page -->
                 <div class="content-text clearfix">
                     <!-- page heading-->
@@ -26,6 +26,8 @@
                     </h2>
                     
                     {!! Form::open(['url'=>'payment']) !!}
+                    {!! Form::hidden('cart_total', $cart_total) !!}
+                    {!! Form::hidden('store-id', $store_id) !!}
                     <div class="row">
 	                    <div class="col-sm-6">
 							<input type="email" name="email" placeholder="البريد الإلكتروني" class="form-control" value="{{$data ? $user_data->email : '' }}" maxlength="50" required>
@@ -41,7 +43,7 @@
 					<br>
 					</div>
 					<div class="col-sm-2">
-					<input type="text" name="tel-code" placeholder="مفتاح البلد" class="form-control" maxlength="10" value="{{$data ? $user_data->tel_code: '' }}" placeholder="المفتاح">
+					<input type="text" name="tel-code" placeholder="مفتاح الهاتف" class="form-control" maxlength="10" value="{{$data ? $user_data->tel_code: '' }}" placeholder="المفتاح">
 					</div>
 					
 					</div>

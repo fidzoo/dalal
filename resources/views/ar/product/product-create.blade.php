@@ -389,6 +389,7 @@
 				$('#sizes_count').append('<input type="hidden" name="sizes_count" value="'+data.length+'">');
 				var i= 1;
 				$.each(data, function(index, subcatObj){
+                    $.getScript('{!! asset("ar-assets/back-end/js/icheck-init.js") !!}');
 					$('#sizes').append('<input name="ar_size'+i+'" type="checkbox" value="'+subcatObj.ar_size+'">&nbsp; '+subcatObj.ar_size+'&nbsp; &nbsp;<input type="hidden" name="en_size'+i+'" value="'+subcatObj.en_size+'"><input type="hidden" name="size_id'+i+'" value="'+subcatObj.id+'">');
 					i++;
                     
@@ -406,7 +407,7 @@
 			$('#specs_count').append('<input type="hidden" name="specs_count" value="'+specs_data.length+'">');
 			var x=1;
 			$.each(specs_data, function(index, subcatObj){
-					$('#specs').append('<input type="hidden" name="ar_title'+x+'" value="'+subcatObj.ar_title+'" > <label>'+subcatObj.ar_title+':</label> <input name="ar_detail'+x+'" type="text"> <br> <input type="hidden" name="en_title'+x+'" value="'+subcatObj.en_title+'" > <label>'+subcatObj.en_title+':</label> <input name="en_detail'+x+'" type="text"> <br>');
+					$('#specs').append('<div class="col-md-6"><input type="hidden" name="ar_title'+x+'" value="'+subcatObj.ar_title+'" > <label>'+subcatObj.ar_title+':</label> <input name="ar_detail'+x+'" class="form-control" type="text"></div><div class="col-md-6"><input type="hidden" name="en_title'+x+'" value="'+subcatObj.en_title+'" > <label>'+subcatObj.en_title+':</label> <input name="en_detail'+x+'" class="form-control" type="text"> <br></div>');
 					x++;
 				});
 			});
